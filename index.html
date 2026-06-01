@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>詩境 · 通靈問詩</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#f5ede0;--ink:#1a1612;--ink-soft:#4a3f33;
+  --bronze:#8b6f47;--bronze-light:#b89968;
+  --vermilion:#a83232;--line:rgba(139,111,71,0.25);
+}
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:24px;
+}
+body{
+  font-family:"Noto Serif TC",serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+@media (max-width:900px){
+  html{scroll-padding-top:78px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* ══ 頂部導覽 ══ */
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:190px;
+  z-index:100;
+  background:rgba(245,237,224,.96);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-right:.5px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  padding:1.4rem 1rem 1.2rem;
+}
+.nav-logo{
+  font-family:"ZCOOL XiaoWei",serif;
+  font-size:22px;
+  letter-spacing:8px;
+  padding:.4rem .5rem 1.6rem;
+  text-align:center;
+  border-bottom:.5px dashed var(--line);
+  margin-bottom:1.2rem;
+}
+.nav-tabs{
+  display:flex;
+  flex-direction:column;
+  gap:.45rem;
+}
+.nav-tab{
+  width:100%;
+  background:transparent;
+  border:.5px solid transparent;
+  border-left:2px solid transparent;
+  padding:14px 14px;
+  font-family:"Noto Serif TC",serif;
+  font-size:12px;
+  letter-spacing:4px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  transition:all .2s;
+  text-align:left;
+  border-radius:2px;
+}
+.nav-tab:hover{
+  color:var(--ink);
+  background:rgba(255,252,245,.55);
+  border-color:rgba(139,111,71,.16);
+}
+.nav-tab.active{
+  color:var(--vermilion);
+  border-left-color:var(--vermilion);
+  background:rgba(255,252,245,.8);
+  font-weight:500;
+}
+.nav-collect-btn{
+  margin-top:.55rem;
+  width:100%;
+  background:transparent;
+  border:.5px solid var(--bronze);
+  color:var(--bronze);
+  padding:11px 12px;
+  font-family:"Noto Serif TC",serif;
+  font-size:11px;
+  letter-spacing:3px;
+  cursor:pointer;
+  border-radius:1px;
+  transition:all .2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.nav-collect-btn:hover{background:var(--bronze);color:#fdf8ec}
+.nav-api-wrap{
+  margin-top:auto;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+}
+.nav-api-status{
+  border:.5px dashed var(--line);
+  border-radius:2px;
+  padding:8px 9px;
+  background:rgba(255,252,245,.52);
+}
+.api-status-label{
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--bronze);
+  margin-bottom:6px;
+}
+.api-status-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:78px;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:2px;
+  border:.5px solid var(--line);
+  color:var(--ink-soft);
+  background:rgba(139,111,71,.08);
+}
+.api-status-pill.s-connected{
+  border-color:rgba(30,110,61,.45);
+  color:#1e6e3d;
+  background:rgba(30,110,61,.11);
+}
+.api-status-pill.s-local{
+  border-color:rgba(139,111,71,.42);
+  color:var(--bronze);
+  background:rgba(139,111,71,.08);
+}
+.api-status-pill.s-limited{
+  border-color:rgba(168,50,50,.44);
+  color:var(--vermilion);
+  background:rgba(168,50,50,.09);
+}
+.nav-api-btn{
+  width:100%;
+  background:transparent;
+  border:.5px dashed var(--bronze);
+  color:var(--bronze);
+  padding:10px 12px;
+  font-family:"Noto Serif TC",serif;
+  font-size:10px;
+  letter-spacing:3px;
+  cursor:pointer;
+  border-radius:1px;
+  transition:all .2s;
+}
+.nav-api-btn:hover{background:rgba(139,111,71,.08);color:var(--ink)}
+.collect-badge{background:var(--vermilion);color:#fdf8ec;font-size:10px;padding:1px 6px;border-radius:8px;min-width:16px;text-align:center}
+
+/* ══ 頁面容器 ══ */
+.page{
+  display:none;
+  width:100%;
+  max-width:1040px;
+  margin:0 auto;
+  padding:2rem 1.5rem 4rem;
+}
+.page.active{display:block}
+.ritual-box,
+.poem-scroll,
+.tabs,
+.chat-section,
+.setup-box,
+.stage,
+#col-content{
+  scroll-margin-top:96px;
+}
+
+body{
+  padding-left:190px;
+}
+
+@media (min-width:901px){
+  .page{
+    max-width:min(1040px, calc(100vw - 230px));
+  }
+}
+
+/* 窄畫面改回頂部導覽，避免側欄壓縮內容 */
+@media (max-width:900px){
+  body{padding-left:0}
+  .nav{
+    position:sticky;
+    top:0;
+    left:auto;
+    bottom:auto;
+    width:auto;
+    height:auto;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 1rem;
+    border-right:none;
+    border-bottom:.5px solid var(--line);
+  }
+  .nav-logo{
+    font-size:17px;
+    letter-spacing:5px;
+    padding:12px 0;
+    margin:0;
+    border-bottom:none;
+    white-space:nowrap;
+  }
+  .nav-tabs{
+    flex-direction:row;
+    gap:0;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-tabs::-webkit-scrollbar{display:none}
+  .nav-tab{
+    width:auto;
+    padding:14px 12px;
+    border:none;
+    border-bottom:2px solid transparent;
+    text-align:center;
+    white-space:nowrap;
+    border-radius:0;
+  }
+  .nav-tab:hover{
+    background:transparent;
+    border-color:transparent;
+  }
+  .nav-tab.active{
+    background:transparent;
+    border-left:none;
+    border-bottom-color:var(--vermilion);
+  }
+  .nav-collect-btn{
+    margin-top:0;
+    width:auto;
+    padding:6px 10px;
+    flex-shrink:0;
+  }
+  .nav-api-wrap{
+    margin-top:0;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:6px;
+    flex-shrink:0;
+  }
+  .nav-api-status{
+    padding:4px 6px;
+    min-height:30px;
+    display:flex;
+    align-items:center;
+  }
+  .api-status-label{
+    display:none;
+  }
+  .api-status-pill{
+    min-width:56px;
+    font-size:10px;
+    letter-spacing:1px;
+    padding:3px 6px;
+    white-space:nowrap;
+  }
+  .nav-api-btn{
+    margin-top:0;
+    width:auto;
+    padding:6px 10px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .page{
+    max-width:720px;
+    padding:2rem 1.25rem 4rem;
+  }
+}
+
+/* ══ 通用元件 ══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes rise{0%{opacity:0;transform:translateX(-50%) translateY(0) scale(1)}20%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-55px) scale(3)}}
+@keyframes scrollIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+
+/* ══ 頁面1：詩境 ══ */
+.smoke-wrap{display:flex;justify-content:center;margin-bottom:1rem;height:72px}
+.censer-mini{position:relative;width:56px;height:72px}
+.s{position:absolute;bottom:38px;left:50%;width:5px;height:5px;background:radial-gradient(circle,rgba(139,111,71,.6)0%,transparent 70%);border-radius:50%;opacity:0;animation:rise 4s ease-out infinite}
+.s:nth-child(1){animation-delay:0s;transform:translateX(-50%)}
+.s:nth-child(2){animation-delay:1.3s;transform:translateX(-60%)}
+.s:nth-child(3){animation-delay:2.6s;transform:translateX(-40%)}
+.hero{text-align:center;margin-bottom:2rem}
+.hero h1{font-family:"ZCOOL XiaoWei",serif;font-size:38px;letter-spacing:12px;margin-bottom:4px}
+.hero-sub{font-size:11px;letter-spacing:7px;color:var(--bronze)}
+
+.ritual-box{background:rgba(255,252,245,.75);border:.5px solid var(--bronze);border-radius:4px;padding:1.5rem;margin-bottom:1.75rem;position:relative}
+.ritual-box::before,.ritual-box::after{content:'';position:absolute;width:12px;height:12px;border:1px solid var(--bronze)}
+.ritual-box::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.ritual-box::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.ritual-label{font-size:11px;letter-spacing:5px;color:var(--bronze);margin-bottom:12px;text-align:center}
+#poem-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:10px 4px;font-family:"Noto Serif TC",serif;font-size:17px;color:var(--ink);text-align:center;outline:none;transition:border-color .3s;margin-bottom:1.25rem}
+#poem-input:focus{border-bottom-color:var(--bronze)}
+#poem-input::placeholder{color:var(--bronze-light);font-size:14px;letter-spacing:2px}
+.example-group{margin-bottom:.85rem}
+.group-label{font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.group-label::after{content:'';flex:1;height:.5px;background:var(--line)}
+.ex-row{display:flex;flex-wrap:wrap;gap:6px}
+.ex-btn{background:transparent;color:var(--ink);border:.5px solid var(--bronze);padding:6px 16px;font-family:"Noto Serif TC",serif;font-size:14px;letter-spacing:1px;cursor:pointer;border-radius:1px;transition:all .2s;white-space:nowrap}
+.ex-btn:hover{background:var(--bronze);color:#fdf8ec}
+  .ex-btn.active{background:var(--bronze);color:#fdf8ec;border-color:var(--bronze)}
+.submit-btn{display:block;width:100%;margin-top:1rem;background:var(--vermilion);color:#fdf8ec;border:none;padding:15px;font-family:"Noto Serif TC",serif;font-size:15px;letter-spacing:8px;cursor:pointer;border-radius:2px;transition:all .25s}
+.submit-btn:hover{background:#8b1f1f;letter-spacing:10px}
+.submit-btn:disabled{opacity:.45;cursor:not-allowed}
+
+.loading-box{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  background:rgba(245,237,224,.78);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+}
+.loading-box.show{display:flex}
+.loading-panel{
+  width:min(420px,calc(100vw - 2.5rem));
+  background:linear-gradient(180deg,rgba(255,252,245,.97),rgba(245,237,224,.96));
+  border:.5px solid var(--bronze);
+  border-radius:4px;
+  padding:2rem 1.75rem;
+  text-align:center;
+  box-shadow:0 18px 60px rgba(74,63,51,.18);
+  position:relative;
+  animation:fadeUp .45s ease-out;
+}
+.loading-panel::before,.loading-panel::after{
+  content:'';
+  position:absolute;
+  width:14px;
+  height:14px;
+  border:1px solid var(--bronze);
+}
+.loading-panel::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.loading-panel::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.loading-ornament{
+  font-size:10px;
+  letter-spacing:5px;
+  color:var(--bronze);
+  margin-bottom:1rem;
+}
+.loading-text{
+  font-family:"Noto Serif TC",serif;
+  font-size:20px;
+  color:var(--ink);
+  letter-spacing:6px;
+  animation:fadeUp 1s ease-in-out;
+}
+.loading-note{
+  margin-top:1rem;
+  font-size:12px;
+  letter-spacing:4px;
+  color:var(--bronze);
+}
+body.loading-open{
+  overflow:hidden;
+}
+.error{
+  text-align:center;
+  padding:1.6rem 1.3rem;
+  color:var(--vermilion);
+  font-size:14px;
+  letter-spacing:3px;
+  background:rgba(255,252,245,.72);
+  border:.5px solid rgba(168,50,50,.26);
+  border-radius:3px;
+}
+.error-title{font-size:14px;letter-spacing:3px}
+.error-detail{
+  margin-top:.8rem;
+  font-size:12px;
+  color:var(--bronze);
+  letter-spacing:2px;
+  line-height:1.7;
+}
+.error-query{
+  margin-top:.55rem;
+  font-size:11px;
+  color:var(--ink-soft);
+  letter-spacing:2px;
+}
+.error-actions{
+  margin-top:1rem;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+.error-btn{
+  background:transparent;
+  border:.5px solid var(--bronze);
+  color:var(--bronze);
+  padding:7px 12px;
+  font-family:"Noto Serif TC",serif;
+  font-size:12px;
+  letter-spacing:2px;
+  border-radius:2px;
+  cursor:pointer;
+  transition:all .2s;
+}
+.error-btn:hover{
+  background:var(--bronze);
+  border-color:var(--bronze);
+  color:#fdf8ec;
+}
+
+.poem-scroll{
+  background:linear-gradient(180deg,#fdf8ec,#f5ede0);
+  border:.5px solid var(--bronze-light);
+  padding:1.75rem;
+  position:relative;
+  margin-bottom:1rem;
+  animation:scrollIn .8s ease-out;
+  overflow:hidden;
+}
+.poem-head{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:1rem;
+  min-width:0;
+  width:100%;
+  height:100%;
+  min-height:0;
+  align-self:start;
+  margin:0;
+  padding:1.3rem .9rem 1rem;
+  background:rgba(255,252,245,.22);
+  border:.5px dashed var(--line);
+  border-radius:3px;
+  overflow:visible;
+}
+.poem-head-main{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  padding-top:.35rem;
+}
+.reveal-label{
+  font-size:10px;
+  letter-spacing:4px;
+  color:var(--bronze);
+  margin-bottom:.75rem;
+}
+
+/* 右側篇名與作者直排 */
+.poem-title-card-body{
+  /* 篇名＋作者作為一個視覺群組置中，
+     避免靠左時右側空、靠右時左側空 */
+  width:max-content;
+  max-width:100%;
+  display:flex;
+  flex-direction:row-reverse;
+  justify-content:flex-start;
+  align-items:flex-start;
+  gap:1.1rem;
+  margin:1.2rem auto .65rem;
+  height:auto;
+  min-height:0;
+  overflow:visible;
+}
+
+.poem-title{
+  writing-mode:vertical-rl;
+  text-orientation:upright;
+  white-space:nowrap;
+
+  display:inline-block;
+  flex:0 0 auto;
+  font-family:"Noto Serif TC",serif;
+  font-size:32px;
+  font-weight:500;
+  line-height:1.55;
+  letter-spacing:5px;
+
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+  overflow:visible;
+}
+
+.poem-meta-info{
+  writing-mode:vertical-rl;
+  text-orientation:upright;
+  white-space:nowrap;
+
+  display:inline-block;
+  flex:0 0 auto;
+  font-size:17px;
+  color:var(--ink-soft);
+  line-height:1.6;
+  letter-spacing:3px;
+
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+  overflow:visible;
+}
+.poem-source-note{
+  align-self:flex-end;
+  margin:0;
+  font-size:11px;
+  letter-spacing:2px;
+  border:.5px dashed var(--line);
+  border-radius:999px;
+  padding:4px 10px;
+  color:var(--bronze);
+  background:rgba(139,111,71,.06);
+  white-space:nowrap;
+}
+.poem-source-note.source-gemini{
+  color:#1e6e3d;
+  border-color:rgba(30,110,61,.42);
+  background:rgba(30,110,61,.1);
+}
+.poem-source-note.source-local{
+  color:var(--bronze);
+  border-color:rgba(139,111,71,.4);
+  background:rgba(139,111,71,.08);
+}
+.poem-head-bottom{
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:.75rem;
+  margin-top:auto;
+  padding-top:.3rem;
+}
+.poem-head-right{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:flex-end;
+  gap:.75rem;
+}
+
+/* ══ 詩作主視覺：標題資訊與詩文原文並排 ══ */
+.poem-overview-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.48fr) minmax(250px,.72fr);
+  gap:.65rem;
+  align-items:start;
+  width:100%;
+  min-width:0;
+  margin-bottom:1.25rem;
+}
+
+.poem-original-panel{
+  min-width:0;
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+  background:rgba(255,252,245,.38);
+  border:.5px solid rgba(139,111,71,.18);
+  border-radius:3px;
+  padding:1.3rem 1rem .9rem;
+  display:flex;
+  flex-direction:column;
+  align-self:start;
+  height:auto;
+}
+
+.poem-panel-top,
+.title-panel-top{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.8rem;
+  margin-bottom:.8rem;
+}
+
+.poem-panel-label{
+  font-size:10px;
+  letter-spacing:4px;
+  color:var(--bronze);
+  margin-bottom:0;
+}
+
+/* 右側「詩魂現身」標題固定一行，字級按鈕改放到下一列 */
+.title-panel-top{
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:.65rem;
+}
+
+.title-panel-top .reveal-label{
+  margin-bottom:0;
+  white-space:nowrap;
+  width:100%;
+}
+
+.title-panel-top .title-font-controls{
+  align-self:flex-end;
+}
+
+.font-size-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+}
+
+.font-size-btn{
+  border:.5px solid var(--bronze);
+  background:rgba(255,252,245,.65);
+  color:var(--bronze);
+  font-family:"Noto Serif TC",serif;
+  font-size:11px;
+  letter-spacing:2px;
+  padding:5px 8px;
+  cursor:pointer;
+  border-radius:2px;
+  transition:all .2s;
+  white-space:nowrap;
+}
+
+.font-size-btn:hover{
+  background:var(--bronze);
+  color:#fdf8ec;
+}
+
+.font-size-value{
+  min-width:24px;
+  text-align:center;
+  font-size:11px;
+  color:var(--ink-soft);
+  letter-spacing:1px;
+}
+.save-btn{
+  background:transparent;
+  border:.5px solid var(--bronze);
+  color:var(--bronze);
+  padding:6px 14px;
+  font-family:"Noto Serif TC",serif;
+  font-size:12px;
+  letter-spacing:2px;
+  cursor:pointer;
+  border-radius:1px;
+  transition:all .2s;
+}
+
+/* 尚未收藏：維持紙感外框，hover 只轉成古銅色 */
+.save-btn:hover{
+  background:var(--bronze);
+  color:#fdf8ec;
+  border-color:var(--bronze);
+}
+
+/* 已收藏：明確改成朱紅實心 */
+.save-btn.saved{
+  background:var(--vermilion);
+  color:#fdf8ec;
+  border-color:var(--vermilion);
+  box-shadow:0 5px 14px rgba(168,50,50,.18);
+}
+
+/* 已收藏 hover：加深朱紅，不會和未收藏混淆 */
+.save-btn.saved:hover{
+  background:#8b1f1f;
+  border-color:#8b1f1f;
+  color:#fdf8ec;
+}
+.poem-text-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  margin:.2rem 0 0;
+  min-height:clamp(220px,34vh,380px);
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:.35rem;
+  scrollbar-width:thin;
+}
+
+.poem-text{
+  writing-mode:vertical-rl;
+  text-orientation:upright;
+  font-family:"Noto Serif TC",serif;
+  font-size:17px;
+  line-height:2.2;
+  letter-spacing:4px;
+  white-space:pre-wrap;
+  word-break:break-all;
+  overflow-wrap:anywhere;
+  line-break:strict;
+
+  /* 真正高度由 JS 依詩句長度自動計算 */
+  height:220px;
+  max-height:none;
+  width:max-content;
+  max-width:none;
+  flex:0 0 auto;
+  overflow:visible;
+  transition:height .25s ease;
+}
+
+/* 中小螢幕改回上下排列，避免並排太擠 */
+@media (max-width:1120px){
+  .poem-overview-grid{
+    grid-template-columns:1fr;
+    gap:1rem;
+  }
+  .poem-original-panel{
+    order:2;
+  }
+  .poem-head.poem-title-card{
+    order:1;
+  }
+  .poem-head{
+    gap:1rem;
+  }
+  .poem-head-main{
+    padding-top:.15rem;
+  }
+  .poem-head-bottom{
+    margin-top:.2rem;
+    padding-top:.2rem;
+  }
+  .poem-head-right{
+    justify-content:flex-start;
+  }
+  .monologue-wrap{
+    border-left:2px solid var(--bronze);
+    border-radius:0 3px 3px 0;
+  }
+}
+
+/* 小螢幕時略縮字距與字級，減少直排爆版 */
+@media (max-width:640px){
+  .poem-panel-top,
+  .title-panel-top{
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+
+  .poem-text{
+    font-size:16px;
+    line-height:2;
+    letter-spacing:3px;
+    height:190px;
+  }
+  .poem-title{
+    font-size:21px;
+    line-height:1.55;
+    letter-spacing:4px;
+  }
+  .poem-meta-info{
+    font-size:12px;
+    letter-spacing:2px;
+  }
+  .poem-title-card-body{
+    gap:.75rem;
+    height:auto;
+    min-height:0;
+  }
+}
+.completion-seal{position:absolute;bottom:1rem;right:1.25rem;background:var(--vermilion);color:#f5ede0;font-size:10px;padding:5px 9px;letter-spacing:3px;transform:rotate(8deg);border-radius:2px;opacity:.85}
+
+/* 詩魂獨白打字機 */
+.monologue-wrap{
+  min-width:0;
+  border-left:2px solid var(--bronze);
+  background:rgba(139,111,71,.055);
+  border-radius:0 3px 3px 0;
+  padding:1rem 1.15rem;
+  margin:0 0 .25rem;
+  font-family:"Noto Serif TC",serif;
+  font-style:italic;
+  font-size:15px;
+  line-height:2;
+  color:var(--ink-soft);
+}
+.monologue-label{font-style:normal;font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:8px}
+.tw-cursor{display:inline-block;width:1px;height:1.1em;background:var(--bronze);margin-left:2px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
+.tw-cursor.done{display:none}
+
+/* 詩人對談 */
+.chat-section{border-top:.5px dashed var(--line);padding-top:1.25rem;margin-top:1.5rem}
+.chat-label{font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:1rem}
+.chat-messages{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem;min-height:40px}
+.msg{max-width:82%;animation:fadeUp .3s ease-out}
+.msg-poet{align-self:flex-start}
+.msg-user{align-self:flex-end}
+.msg-name{font-size:10px;letter-spacing:3px;color:var(--bronze);margin-bottom:4px}
+.msg-user .msg-name{text-align:right;color:var(--ink-soft)}
+.msg-bubble{padding:.75rem 1rem;font-size:14px;line-height:1.8;border-radius:2px}
+.msg-poet .msg-bubble{background:rgba(139,111,71,.08);border-left:2px solid var(--bronze);font-style:italic;color:var(--ink-soft)}
+.msg-user .msg-bubble{background:var(--ink);color:#fdf8ec}
+.chat-input-wrap{display:flex;gap:8px}
+.chat-input{flex:1;background:transparent;border:none;border-bottom:.5px solid var(--bronze);padding:10px 8px;font-family:"Noto Serif TC",serif;font-size:14px;color:var(--ink);outline:none}
+.chat-input::placeholder{color:var(--bronze-light);font-size:13px}
+.chat-send{background:var(--ink);color:#fdf8ec;border:none;padding:10px 18px;font-family:"Noto Serif TC",serif;font-size:13px;letter-spacing:3px;cursor:pointer;border-radius:1px;transition:all .2s}
+.chat-send:hover{background:var(--bronze)}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
+
+/* 分頁 */
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;background:rgba(139,111,71,.1);border-radius:3px;margin-bottom:1.25rem;padding:4px;gap:4px}
+.tab{background:transparent;border:none;padding:11px 8px;font-family:"Noto Serif TC",serif;font-size:12px;color:var(--ink-soft);letter-spacing:3px;cursor:pointer;border-radius:2px;transition:all .2s;text-align:center}
+.tab:hover{color:var(--ink);background:rgba(255,252,245,.5)}
+.tab.active{background:#fdf8ec;color:var(--vermilion);font-weight:500;box-shadow:0 1px 4px rgba(139,111,71,.2)}
+.tab-content{display:none;animation:fadeUp .4s ease-out;padding-bottom:1rem}
+.tab-content.active{display:block}
+.sec-label{font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:6px;margin-top:1.25rem}
+.sec-label:first-child{margin-top:0}
+.sec-txt{font-size:15px;line-height:1.9;margin-bottom:.5rem}
+.sec-txt.sentence-break{line-height:2.05}
+.sec-txt.sentence-break .sentence{display:block;margin-bottom:.35rem}
+.sec-txt.sentence-break .sentence:last-child{margin-bottom:0}
+.sec-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag-item{font-size:12px;padding:5px 14px;border-radius:2px;border:.5px solid}
+.t1{background:#f2e8d4;color:#6b4f1e;border-color:#b89968}
+.t2{background:#efe4e0;color:#722828;border-color:#c08070}
+.t3{background:#e6e0d0;color:#4a3f33;border-color:#8b6f47}
+.emo-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.emo-cell{background:rgba(139,111,71,.06);border-left:2px solid var(--bronze);padding:1rem}
+.emo-cell .el{font-size:10px;letter-spacing:3px;color:var(--bronze);margin-bottom:4px}
+.emo-cell .ev{font-size:20px;font-weight:500}
+.echo-box{background:linear-gradient(135deg,rgba(168,50,50,.04),rgba(139,111,71,.04));border:.5px dashed var(--vermilion);padding:1rem 1.25rem;margin-top:.75rem}
+.echo-lbl{font-size:10px;letter-spacing:4px;color:var(--vermilion);margin-bottom:6px}
+.echo-txt{font-size:14px;line-height:1.8;font-family:sans-serif;font-weight:300}
+.src-note{font-size:11px;color:var(--bronze);border-top:.5px dashed var(--line);padding-top:.75rem;margin-top:1rem;letter-spacing:2px}
+
+/* ══ 頁面2：雙魂對話 ══ */
+.page2-title{font-family:"ZCOOL XiaoWei",serif;font-size:28px;letter-spacing:8px;text-align:center;margin-bottom:.5rem}
+.page2-sub{font-size:11px;letter-spacing:5px;color:var(--bronze);text-align:center;margin-bottom:2rem}
+
+.setup-box{background:rgba(255,252,245,.8);border:.5px solid var(--bronze);padding:1.5rem;margin-bottom:1.5rem;position:relative;border-radius:2px}
+.setup-box::before,.setup-box::after{content:'';position:absolute;width:10px;height:10px;border:1px solid var(--bronze)}
+.setup-box::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.setup-box::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.setup-label{font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:1rem;text-align:center}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.setup-col label{font-size:10px;letter-spacing:3px;color:var(--bronze);display:block;margin-bottom:6px}
+.setup-col select{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:8px 4px;font-family:"Noto Serif TC",serif;font-size:16px;color:var(--ink);outline:none;cursor:pointer;-webkit-appearance:none}
+.topic-row{margin-bottom:1rem}
+.topic-row label{font-size:10px;letter-spacing:3px;color:var(--bronze);display:block;margin-bottom:6px}
+.topic-row input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:8px 4px;font-family:"Noto Serif TC",serif;font-size:16px;color:var(--ink);text-align:center;outline:none}
+.topic-row input::placeholder{color:var(--bronze-light);font-size:14px;letter-spacing:2px}
+
+/* Persona 展開 */
+.persona-toggle{
+  background:transparent;border:.5px solid var(--line);color:var(--bronze);
+  padding:6px 14px;font-family:"Noto Serif TC",serif;font-size:11px;letter-spacing:3px;
+  cursor:pointer;border-radius:1px;transition:all .2s;margin-bottom:.75rem;width:100%;text-align:left;
+}
+.persona-toggle:hover{border-color:var(--bronze)}
+.persona-panels{display:none;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.persona-panels.show{display:grid}
+.persona-panel label{font-size:10px;letter-spacing:3px;color:var(--bronze);display:block;margin-bottom:6px}
+.persona-textarea{width:100%;background:rgba(245,237,224,.5);border:.5px solid var(--line);border-radius:2px;padding:.75rem;font-family:"Noto Serif TC",serif;font-size:12px;line-height:1.7;color:var(--ink);outline:none;resize:vertical;min-height:140px;transition:border-color .3s}
+.persona-textarea:focus{border-color:var(--bronze)}
+.reset-persona-btn{background:transparent;border:none;color:var(--bronze-light);font-family:"Noto Serif TC",serif;font-size:11px;letter-spacing:2px;cursor:pointer;margin-top:4px;padding:0}
+.reset-persona-btn:hover{color:var(--bronze)}
+
+.start-btn{display:block;width:100%;background:var(--ink);color:#fdf8ec;border:none;padding:14px;font-family:"Noto Serif TC",serif;font-size:15px;letter-spacing:6px;cursor:pointer;border-radius:2px;transition:all .25s}
+.start-btn:hover{background:var(--vermilion);letter-spacing:8px}
+.start-btn:disabled{opacity:.4;cursor:not-allowed}
+
+.stage{display:none;margin-bottom:1.5rem}
+.stage.show{display:block}
+.stage-header{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(139,111,71,.08);border:.5px solid var(--line);margin-bottom:1rem}
+.stage-info{font-size:12px;letter-spacing:3px;color:var(--bronze)}
+.stage-poets{font-family:"ZCOOL XiaoWei",serif;font-size:15px;letter-spacing:4px}
+.stop-btn{background:transparent;border:.5px solid var(--line);color:var(--ink-soft);padding:5px 12px;font-family:"Noto Serif TC",serif;font-size:11px;letter-spacing:2px;cursor:pointer;border-radius:1px;transition:all .2s}
+.stop-btn:hover{border-color:var(--vermilion);color:var(--vermilion)}
+.dialogue{display:flex;flex-direction:column;gap:1rem;min-height:80px}
+.d-turn{animation:fadeUp .5s ease-out both}
+.d-left{align-self:flex-start;max-width:75%}
+.d-right{align-self:flex-end;max-width:75%;text-align:right}
+.d-name{font-size:10px;letter-spacing:4px;color:var(--bronze);margin-bottom:5px}
+.d-right .d-name{text-align:right}
+.d-bubble{display:inline-block;text-align:left;padding:.875rem 1.1rem;font-size:14.5px;line-height:1.9;border-radius:2px;font-style:italic}
+.d-left .d-bubble{background:rgba(139,111,71,.08);border-left:2px solid var(--bronze);color:var(--ink-soft)}
+.d-right .d-bubble{background:rgba(168,50,50,.07);border-right:2px solid var(--vermilion);color:var(--ink-soft)}
+.d-cursor-l{display:inline-block;width:1px;height:1em;background:var(--bronze);margin-left:2px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
+.d-cursor-r{display:inline-block;width:1px;height:1em;background:var(--vermilion);margin-left:2px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
+.stage-status{text-align:center;font-size:11px;letter-spacing:4px;color:var(--bronze);padding:.75rem}
+.more-btn{display:none;margin:0 auto;background:transparent;border:.5px solid var(--bronze);color:var(--bronze);padding:8px 24px;font-family:"Noto Serif TC",serif;font-size:12px;letter-spacing:4px;cursor:pointer;border-radius:1px;transition:all .2s}
+.more-btn:hover{background:var(--bronze);color:#fdf8ec}
+
+/* ══ 頁面3：詩藏 ══ */
+.page3-title{font-family:"ZCOOL XiaoWei",serif;font-size:28px;letter-spacing:8px;text-align:center;margin-bottom:.5rem}
+.page3-sub{font-size:11px;letter-spacing:5px;color:var(--bronze);text-align:center;margin-bottom:2rem}
+.col-empty{text-align:center;color:var(--bronze);font-size:14px;letter-spacing:4px;padding:4rem 0;border:.5px dashed var(--line);border-radius:2px}
+.col-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.col-card{background:rgba(255,252,245,.8);border:.5px solid var(--line);padding:1.25rem;cursor:pointer;transition:all .2s;border-radius:2px;position:relative}
+.col-card:hover{border-color:var(--bronze);background:rgba(255,252,245,1)}
+.col-title{font-family:"Noto Serif TC",serif;font-size:18px;font-weight:500;letter-spacing:3px;margin-bottom:4px}
+.col-meta{font-size:11px;color:var(--bronze);letter-spacing:2px;margin-bottom:.5rem}
+.col-preview{font-size:12px;color:var(--ink-soft);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.col-del{position:absolute;top:.75rem;right:.75rem;background:transparent;border:none;color:var(--line);font-size:14px;cursor:pointer;transition:color .2s;padding:2px 6px}
+.col-del:hover{color:var(--vermilion)}
+</style>
+</head>
+<body>
+
+<!-- ══ 導覽列 ══ -->
+<nav class="nav">
+  <div class="nav-logo">詩 境</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('p1', this)">通 靈 問 詩</button>
+    <button class="nav-tab" onclick="showPage('p2', this)">雙 魂 對 話</button>
+    <button class="nav-tab" onclick="showPage('p3', this)">詩 藏</button>
+  </div>
+  <button class="nav-collect-btn" onclick="showPage('p3', document.querySelectorAll('.nav-tab')[2])">
+    詩 藏 <span class="collect-badge" id="collect-badge">0</span>
+  </button>
+  <div class="nav-api-wrap">
+    <div class="nav-api-status" aria-live="polite">
+      <div class="api-status-label">API 狀態</div>
+      <div class="api-status-pill s-local" id="api-status-pill">僅本機</div>
+    </div>
+    <button class="nav-api-btn" onclick="promptForGeminiApiKey(true)">API KEY</button>
+  </div>
+</nav>
+
+<!-- ══ 頁面1：通靈問詩 ══ -->
+<div class="page active" id="p1">
+  <div class="smoke-wrap">
+    <div class="censer-mini">
+      <div class="s"></div><div class="s"></div><div class="s"></div>
+      <svg width="56" height="44" viewBox="0 0 56 44" style="position:absolute;bottom:0">
+        <ellipse cx="28" cy="9" rx="18" ry="3" fill="none" stroke="#8b6f47" stroke-width="1"/>
+        <ellipse cx="28" cy="14" rx="18" ry="3" fill="#c9a978" stroke="#8b6f47" stroke-width="1"/>
+        <path d="M11 16 Q8 26 12 36 L44 36 Q48 26 45 16Z" fill="#c9a978" stroke="#8b6f47" stroke-width="1"/>
+        <line x1="14" y1="24" x2="42" y2="24" stroke="#8b6f47" stroke-width=".5" stroke-dasharray="2,3"/>
+        <rect x="9" y="36" width="38" height="3" fill="#8b6f47"/>
+        <path d="M12 39 L10 44 L17 44Z" fill="#6b4f1e"/>
+        <path d="M44 39 L46 44 L39 44Z" fill="#6b4f1e"/>
+      </svg>
+    </div>
+  </div>
+  <div class="hero">
+    <h1>詩 境</h1>
+    <div class="hero-sub">— 與 千 年 詩 魂 對 話 —</div>
+  </div>
+
+  <div class="ritual-box">
+    <div class="ritual-label">— 心 中 所 念，何 詩 何 句 —</div>
+    <input id="poem-input" type="text" placeholder="作者、片段、意境皆可"/>
+    <div class="example-group">
+      <div class="group-label">作 者</div>
+      <div class="ex-row">
+        <button class="ex-btn" onclick="fill('李白',this)">李白</button>
+        <button class="ex-btn" onclick="fill('蘇軾',this)">蘇軾</button>
+        <button class="ex-btn" onclick="fill('王維',this)">王維</button>
+      </div>
+    </div>
+    <div class="example-group">
+      <div class="group-label">篇 名</div>
+      <div class="ex-row">
+        <button class="ex-btn" onclick="fill('靜夜思',this)">靜夜思</button>
+        <button class="ex-btn" onclick="fill('水調歌頭',this)">水調歌頭</button>
+        <button class="ex-btn" onclick="fill('鳥鳴澗',this)">鳥鳴澗</button>
+      </div>
+    </div>
+    <div class="example-group">
+      <div class="group-label">片段與意境</div>
+      <div class="ex-row">
+        <button class="ex-btn" onclick="fill('床前明月光',this)">床前明月光</button>
+        <button class="ex-btn" onclick="fill('思鄉的詩',this)">思鄉的詩</button>
+        <button class="ex-btn" onclick="fill('邊塞悲壯',this)">邊塞悲壯</button>
+      </div>
+    </div>
+    <button class="submit-btn" id="submit-btn" onclick="summon()">焚 香 問 詩</button>
+  </div>
+
+  <div class="loading-box" id="loading" aria-live="polite" aria-busy="true">
+    <div class="loading-panel">
+      <div class="loading-ornament">— 詩 境 通 靈 —</div>
+      <div class="loading-text" id="loading-text">點 燃 香 爐 ⋯</div>
+      <div class="loading-note">古 卷 翻 動，詩 魂 將 至</div>
+    </div>
+  </div>
+  <div id="output"></div>
+</div>
+
+<!-- ══ 頁面2：雙魂對話 ══ -->
+<div class="page" id="p2">
+  <div class="page2-title">雙 魂 對 話</div>
+  <div class="page2-sub">— 召 喚 兩 位 詩 人，就 主 題 展 開 詩 意 對 話 —</div>
+
+  <div class="setup-box">
+    <div class="setup-label">— 設 定 對 話 —</div>
+    <div class="setup-grid">
+      <div class="setup-col">
+        <label>詩 人 甲</label>
+        <select id="poet-a" onchange="updatePersona('a')">
+          <option value="李白">李白（唐）</option>
+          <option value="杜甫">杜甫（唐）</option>
+          <option value="王維">王維（唐）</option>
+          <option value="白居易">白居易（唐）</option>
+          <option value="蘇軾">蘇軾（宋）</option>
+          <option value="李清照">李清照（宋）</option>
+          <option value="辛棄疾">辛棄疾（宋）</option>
+          <option value="陶淵明">陶淵明（東晉）</option>
+        </select>
+      </div>
+      <div class="setup-col">
+        <label>詩 人 乙</label>
+        <select id="poet-b" onchange="updatePersona('b')">
+          <option value="蘇軾" selected>蘇軾（宋）</option>
+          <option value="李白">李白（唐）</option>
+          <option value="杜甫">杜甫（唐）</option>
+          <option value="王維">王維（唐）</option>
+          <option value="白居易">白居易（唐）</option>
+          <option value="李清照">李清照（宋）</option>
+          <option value="辛棄疾">辛棄疾（宋）</option>
+          <option value="陶淵明">陶淵明（東晉）</option>
+        </select>
+      </div>
+    </div>
+    <div class="topic-row">
+      <label>對 話 主 題</label>
+      <input id="d-topic" type="text" placeholder="月亮、離別、功名、人生無常…"/>
+    </div>
+    <button class="persona-toggle" onclick="togglePersona()">▸ 展 開 Persona 設 定（System Prompt）</button>
+    <div class="persona-panels" id="persona-panels">
+      <div class="persona-panel">
+        <label id="label-a">李白 Persona</label>
+        <textarea class="persona-textarea" id="persona-a"></textarea>
+        <button class="reset-persona-btn" onclick="resetPersona('a')">還原預設</button>
+      </div>
+      <div class="persona-panel">
+        <label id="label-b">蘇軾 Persona</label>
+        <textarea class="persona-textarea" id="persona-b"></textarea>
+        <button class="reset-persona-btn" onclick="resetPersona('b')">還原預設</button>
+      </div>
+    </div>
+    <button class="start-btn" id="start-btn" onclick="startDialogue()">召 喚 兩 位 詩 魂</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="stage-header">
+      <div>
+        <div class="stage-info" id="stage-topic-label"></div>
+        <div class="stage-poets" id="stage-poets-label"></div>
+      </div>
+      <button class="stop-btn" onclick="stopDialogue()">終 止</button>
+    </div>
+    <div class="dialogue" id="dialogue"></div>
+    <div class="stage-status" id="stage-status"></div>
+    <div style="text-align:center;margin-top:.75rem">
+      <button class="more-btn" id="more-btn" onclick="continueDialogue()">繼 續 對 話</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 頁面3：詩藏 ══ -->
+<div class="page" id="p3">
+  <div class="page3-title">詩 藏</div>
+  <div class="page3-sub">— 你 召 喚 過 的 詩 魂 —</div>
+  <div id="col-content"></div>
+</div>
+
+<script>
+const GEMINI_API_KEY_STORAGE = 'poemlens_gemini_api_key';
+const GEMINI_MODEL = 'gemini-2.5-flash';
+const GEMINI_FALLBACK_MODEL = 'gemini-2.5-flash';
+const POEM_JSON_GENERATION_CONFIG = {
+  temperature:0.35,
+  maxOutputTokens:4096,
+  responseMimeType:'application/json'
+};
+let geminiApiKey = sessionStorage.getItem(GEMINI_API_KEY_STORAGE) || '';
+let geminiApiKeyPrompted = false;
+const LOCAL_POEM_LIBRARY_URL = 'poems.json';
+let LOCAL_POEM_DATA = null;
+let localPoemDataLoadPromise = null;
+let localPoemDataLoadError = '';
+let localPoemDataAttempted = false;
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let lastFailedPoemQuery = '';
+
+function setApiStatus(status) {
+  const normalized = status === 'connected' || status === 'limited' ? status : 'local';
+  const pill = document.getElementById('api-status-pill');
+  if (!pill) return;
+  pill.className = `api-status-pill s-${normalized}`;
+  pill.textContent = normalized === 'connected'
+    ? '已連線'
+    : (normalized === 'limited' ? '配額受限' : '僅本機');
+}
+
+function setApiStatusFromError(e) {
+  const msg = String(e?.message || '');
+  if (msg.includes('API 429')) {
+    setApiStatus('limited');
+    return;
+  }
+  if (msg.includes('GEMINI_JSON_PARSE_ERROR') || msg.includes('GEMINI_BAD_POEM_TEXT')) {
+    setApiStatus('connected');
+    return;
+  }
+  if (
+    msg.includes('API_KEY_MISSING') ||
+    msg.includes('API 400') ||
+    msg.includes('API 403') ||
+    msg.includes('API 500') ||
+    msg.includes('API 503') ||
+    msg.includes('連線失敗')
+  ) {
+    setApiStatus('local');
+  }
+}
+
+function getGeminiApiKey(options = {}) {
+  geminiApiKey = sessionStorage.getItem(GEMINI_API_KEY_STORAGE) || geminiApiKey || '';
+  if (options.promptIfMissing && (options.force || (!geminiApiKey && !geminiApiKeyPrompted))) {
+    geminiApiKeyPrompted = true;
+    const entered = window.prompt(
+      '請輸入 Gemini API key。\n只會暫存在本分頁 sessionStorage，關閉分頁後即清除；取消則只使用本機詩庫。'
+    );
+    if (entered && entered.trim()) {
+      geminiApiKey = entered.trim();
+      sessionStorage.setItem(GEMINI_API_KEY_STORAGE, geminiApiKey);
+      setApiStatus('local');
+      if (options.testAfterSave) {
+        setTimeout(() => testGeminiApiKey({ promptIfMissing:false, silent:true }), 80);
+      }
+    } else if (!sessionStorage.getItem(GEMINI_API_KEY_STORAGE)) {
+      setApiStatus('local');
+    }
+  }
+  return geminiApiKey.trim();
+}
+
+function promptForGeminiApiKey(force = false) {
+  if (!force && sessionStorage.getItem(GEMINI_API_KEY_STORAGE)) return;
+  getGeminiApiKey({ promptIfMissing:true, force, testAfterSave:true });
+}
+
+function clearGeminiApiKey() {
+  geminiApiKey = '';
+  geminiApiKeyPrompted = false;
+  sessionStorage.removeItem(GEMINI_API_KEY_STORAGE);
+  setApiStatus('local');
+}
+
+async function testGeminiApiKey(options = {}) {
+  const silent = Boolean(options.silent);
+  const apiKey = getGeminiApiKey({
+    promptIfMissing: options.promptIfMissing !== false,
+    force: Boolean(options.force)
+  });
+  if (!apiKey) {
+    setApiStatus('local');
+    if (!silent) alert('尚未輸入 Gemini API key；目前只能使用本機詩庫。');
+    return { ok:false, status:'local' };
+  }
+
+  try {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{ parts:[{ text:'請只回覆：API_OK' }] }]
+      })
+    });
+
+    let body = {};
+    try { body = await resp.json(); } catch(_) {}
+
+    if (resp.ok) {
+      const text = body?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '成功，但沒有文字回覆';
+      setApiStatus('connected');
+      if (!silent) alert(`Gemini API 測試成功（${GEMINI_MODEL}）：${text}`);
+      return { ok:true, status:'connected', text };
+    }
+
+    const msg = body?.error?.message || `HTTP ${resp.status}`;
+    const status = resp.status === 429 ? 'limited' : 'local';
+    setApiStatus(status);
+    if (resp.status === 429) {
+      if (!silent) alert(`Gemini API 測試失敗：429\\n請求過於頻繁或配額不足。`);
+    } else if (resp.status === 400 || resp.status === 403) {
+      if (!silent) alert(`Gemini API 測試失敗：${resp.status}\\nAPI key 可能無效、未啟用 Gemini API，或被限制。\\n${msg}`);
+    } else {
+      if (!silent) alert(`Gemini API 測試失敗：${resp.status}\\n${msg}`);
+    }
+    return { ok:false, status, code:resp.status, message:msg };
+  } catch(e) {
+    setApiStatus('local');
+    if (!silent) alert(`Gemini API 測試失敗：連線錯誤\\n${String(e?.message || e)}`);
+    return { ok:false, status:'local', message:String(e?.message || e) };
+  }
+}
+
+// Gemini 偶爾會回 503 / 500；這類暫時性錯誤可以退避重試。
+// 429 通常是限流或配額不足，不在這裡連續重試，避免進一步消耗請求。
+async function callGeminiWithRetry(contents, maxRetries = 4, requestOptions = {}) {
+  const apiKey = getGeminiApiKey({ promptIfMissing:true });
+  if (!apiKey) throw new Error('API_KEY_MISSING');
+
+  const model = requestOptions.model || GEMINI_MODEL;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  let lastStatus = null;
+  let lastMessage = '';
+  const requestBody = { contents };
+  if (requestOptions.generationConfig) {
+    requestBody.generationConfig = requestOptions.generationConfig;
+  }
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const resp = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(requestBody)
+    });
+
+    if (resp.ok) {
+      setApiStatus('connected');
+      return await resp.json();
+    }
+
+    lastStatus = resp.status;
+
+    try {
+      const err = await resp.json();
+      lastMessage = err?.error?.message || '';
+    } catch(_) {
+      lastMessage = '';
+    }
+
+    const retryable = [500, 503].includes(resp.status);
+    if (retryable && attempt < maxRetries) {
+      const backoff = 3000 * Math.pow(2, attempt);
+      const jitter = Math.floor(Math.random() * 260);
+      await wait(backoff + jitter);
+      continue;
+    }
+
+    const detail = lastMessage ? `：${lastMessage}` : '';
+    throw new Error(`API ${lastStatus}${detail}`);
+  }
+
+  const detail = lastMessage ? `：${lastMessage}` : '';
+  throw new Error(`API ${lastStatus || '連線失敗'}${detail}`);
+}
+
+function friendlyApiError(e) {
+  const msg = String(e?.message || '');
+  if (msg.includes('API_KEY_MISSING')) {
+    return '尚未輸入 Gemini API key；目前只使用本機詩庫。';
+  }
+  if (msg.includes('GEMINI_JSON_PARSE_ERROR')) {
+    return 'Gemini 回傳的 JSON 格式不完整或被截斷；若本機詩庫沒有命中，請再試一次。';
+  }
+  if (msg.includes('GEMINI_BAD_POEM_TEXT')) {
+    return 'Gemini 回傳的原文含亂碼或非中文內容，已拒收這次結果。';
+  }
+  if (msg.includes('API 503')) {
+    return 'Gemini 服務暫時壅塞，已自動重試仍未成功，請稍後再試。';
+  }
+  if (msg.includes('API 429')) {
+    return 'Gemini 請求過於頻繁或配額不足，請稍後再試。';
+  }
+  if (msg.includes('API 500')) {
+    return 'Gemini 服務端暫時異常，請稍後再試。';
+  }
+  return msg || '未知錯誤';
+}
+
+function stripJsonFence(text) {
+  return String(text || '')
+    .trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/```\s*$/i, '')
+    .trim();
+}
+
+function extractCompleteJsonObject(text) {
+  const s = stripJsonFence(text);
+  const start = s.indexOf('{');
+  if (start < 0) return s;
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let i = start; i < s.length; i++) {
+    const ch = s[i];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (ch === '\\' && inString) {
+      escaped = true;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (ch === '{') depth++;
+    if (ch === '}') depth--;
+
+    if (depth === 0) {
+      return s.slice(start, i + 1);
+    }
+  }
+
+  return s.slice(start);
+}
+
+function parseGeminiJson(text) {
+  const jsonText = extractCompleteJsonObject(text);
+  try {
+    return JSON.parse(jsonText);
+  } catch(e) {
+    throw new Error(`GEMINI_JSON_PARSE_ERROR：${e.message}`);
+  }
+}
+
+function isGeminiFormatError(e) {
+  const msg = String(e?.message || '');
+  return msg.includes('GEMINI_JSON_PARSE_ERROR') || msg.includes('GEMINI_BAD_POEM_TEXT');
+}
+
+function cjkRatio(text) {
+  const chars = Array.from(String(text || '').replace(/\s+/g, ''));
+  if (!chars.length) return 0;
+  const cjk = chars.filter(ch => /[\u3400-\u9fff]/u.test(ch)).length;
+  return cjk / chars.length;
+}
+
+function hasBadPoemText(text) {
+  const raw = String(text || '');
+  const compact = raw.replace(/\s+/g, '');
+  if (!compact) return true;
+  if (cjkRatio(compact) < 0.72) return true;
+  return /[A-Za-zА-Яа-яЁё]{3,}/u.test(compact);
+}
+
+function normalizeGeminiPoemResult(r) {
+  if (hasBadPoemText(r?.fullText)) {
+    throw new Error('GEMINI_BAD_POEM_TEXT：Gemini 原文欄位含大量非中文或疑似亂碼');
+  }
+
+  return r;
+}
+
+async function requestPoemJson(prompt, model = GEMINI_MODEL) {
+  const data = await callGeminiWithRetry([{parts:[{text:prompt}]}], 4, {
+    model,
+    generationConfig: POEM_JSON_GENERATION_CONFIG
+  });
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  return normalizeGeminiPoemResult(parseGeminiJson(text));
+}
+
+const FALLBACK_POEMS = [
+  {
+    title:'靜夜思',
+    author:'李白',
+    dynasty:'唐',
+    fullText:'床前明月光\n疑是地上霜\n舉頭望明月\n低頭思故鄉',
+    monologue:'夜半客舍清冷，月色鋪在床前，如霜似雪。吾舉首望月，忽覺千里之外的故園也在此光中，於是低頭之間，滿心皆是歸不得的鄉愁。',
+    semantic:{
+      translation:'床前映著明亮月光，恍若地上鋪了一層白霜。我抬頭望向天上的明月，又低下頭思念遠方故鄉。',
+      devices:['借景抒情','明月意象','五言絕句']
+    },
+    emotion:{
+      primary:'思鄉',
+      intensity:'含蓄深切',
+      analysis:'全詩不直接鋪陳悲傷，而以月光、白霜與低頭動作層層轉入鄉愁。情緒安靜卻深，像夜色中忽然被照亮的一念。',
+      modernEcho:'像異地深夜看見窗外同一輪月，手機還未撥出，思念已先抵達家門。'
+    },
+    history:{
+      context:'《靜夜思》相傳為李白客居他鄉時所作，是唐詩中最廣為傳誦的思鄉短章。詩以極少字句完成場景與心境的轉換，呈現遊子夜中望月而思歸的共同經驗。',
+      source:'《全唐詩》'
+    },
+    aliases:['李白','靜夜思','床前明月光','疑是地上霜','思鄉','思鄉的詩','明月','月亮']
+  },
+  {
+    title:'水調歌頭',
+    author:'蘇軾',
+    dynasty:'宋',
+    fullText:'明月幾時有\n把酒問青天\n不知天上宮闕\n今夕是何年\n我欲乘風歸去\n又恐瓊樓玉宇\n高處不勝寒\n起舞弄清影\n何似在人間\n轉朱閣\n低綺戶\n照無眠\n不應有恨\n何事長向別時圓\n人有悲歡離合\n月有陰晴圓缺\n此事古難全\n但願人長久\n千里共嬋娟',
+    monologue:'中秋酒醒，月光滿庭。我問青天，也問自己：離合無常，豈只人間如此？願弟與我雖隔千里，仍能共此清輝，把不能團圓的缺，化作長久的念。',
+    semantic:{
+      translation:'詞人把酒問月，想像天上宮闕，又回到人間思念親人。最後領悟人生有悲歡離合、月亮有陰晴圓缺，只願彼此長久平安，共賞同一輪明月。',
+      devices:['設問','哲理抒情','中秋詞']
+    },
+    emotion:{
+      primary:'曠達思念',
+      intensity:'開闊而深情',
+      analysis:'前半由奇想入天，後半由月圓轉入人間離別。詞中有不能相聚的遺憾，也有將遺憾提升為祝願的胸襟。',
+      modernEcho:'像遠距離家人在節日視訊前各自望月，不能同桌，仍把平安當作團圓。'
+    },
+    history:{
+      context:'《水調歌頭·明月幾時有》作於宋神宗熙寧九年中秋，蘇軾在密州思念弟弟蘇轍，借月抒懷，成為中秋詞代表作。',
+      source:'《東坡樂府》'
+    },
+    aliases:['蘇軾','水調歌頭','明月幾時有','把酒問青天','但願人長久','嬋娟','中秋']
+  },
+  {
+    title:'鳥鳴澗',
+    author:'王維',
+    dynasty:'唐',
+    fullText:'人閒桂花落\n夜靜春山空\n月出驚山鳥\n時鳴春澗中',
+    monologue:'人聲既歇，桂花自落。山中之空，不是無物，而是萬物各安其位。月出時鳥鳴一兩聲，反使春夜更深，吾便在這靜處聽見天地。',
+    semantic:{
+      translation:'人閒夜靜，桂花悄然飄落，春山顯得格外空寂。月亮升起驚動山鳥，牠們不時在春澗中鳴叫。',
+      devices:['以動襯靜','山水意象','五言絕句']
+    },
+    emotion:{
+      primary:'清幽禪意',
+      intensity:'淡而悠遠',
+      analysis:'詩中沒有強烈情節，只以花落、月出、鳥鳴呈現空山之靜。聲音不是破壞寂靜，而是讓寂靜更可感。',
+      modernEcho:'像深夜關掉通知後，才聽見窗外細小聲響，心也慢慢安定下來。'
+    },
+    history:{
+      context:'《鳥鳴澗》為王維山水田園詩名篇，常被視為其詩中有畫、畫中有禪的代表。全詩以極簡景物構成清空幽微的春夜境界。',
+      source:'《全唐詩》'
+    },
+    aliases:['王維','鳥鳴澗','人閒桂花落','夜靜春山空','山水','空山','禪意']
+  },
+  {
+    title:'出塞',
+    author:'王昌齡',
+    dynasty:'唐',
+    fullText:'秦時明月漢時關\n萬里長征人未還\n但使龍城飛將在\n不教胡馬度陰山',
+    monologue:'塞上月仍是古時月，關仍是舊時關，而征人一去萬里，未必能還。吾寫邊塞，不只寫壯志，也寫天下人盼一位良將守住家國的深願。',
+    semantic:{
+      translation:'秦漢以來的明月仍照著邊關，遠征萬里的將士還未歸來。只要像飛將軍李廣那樣的名將仍在，就不會讓敵軍越過陰山。',
+      devices:['懷古寄慨','邊塞意象','七言絕句']
+    },
+    emotion:{
+      primary:'悲壯',
+      intensity:'雄渾高昂',
+      analysis:'詩以漫長歷史襯托邊戰不息，既有對征人的悲憫，也有守土安民的豪情。短短四句兼具蒼茫與力量。',
+      modernEcho:'像在新聞裡看見遙遠前線，既盼有人守住危局，也盼所有離家的人終能回家。'
+    },
+    history:{
+      context:'《出塞》是唐代邊塞詩代表作之一，借秦漢明月與邊關意象，寫出戰爭延續、征人難歸與渴望名將靖邊的共同心聲。',
+      source:'《全唐詩》'
+    },
+    aliases:['邊塞','悲壯','出塞','王昌齡','秦時明月','漢時關','龍城飛將','陰山']
+  },
+  {
+    title:'春曉',
+    author:'孟浩然',
+    dynasty:'唐',
+    fullText:'春眠不覺曉\n處處聞啼鳥\n夜來風雨聲\n花落知多少',
+    monologue:'春睡初醒，四處鳥聲喚人。昨夜風雨似已遠去，卻在落花裡留下痕跡。吾惜春，不必長嘆，只問一句花落多少，便有無限憐惜。',
+    semantic:{
+      translation:'春夜好睡，不知不覺已到天明，醒來聽見到處鳥鳴。想起昨夜風雨聲，不知花兒被吹落了多少。',
+      devices:['惜春','以問作結','五言絕句']
+    },
+    emotion:{
+      primary:'惜春',
+      intensity:'輕柔含蓄',
+      analysis:'詩從春眠初醒寫起，表面閒適，結尾卻因風雨落花生出淡淡惆悵。情緒不濃烈，卻很耐回味。',
+      modernEcho:'像清晨醒來看見雨後街樹落花，才意識到一夜之間季節又往前走了。'
+    },
+    history:{
+      context:'《春曉》是孟浩然五言絕句名篇，以日常醒覺寫春日感受，語言淺白自然，呈現盛唐田園詩的清新氣息。',
+      source:'《全唐詩》'
+    },
+    aliases:['春曉','孟浩然','春眠','啼鳥','春天','惜春','花落']
+  }
+];
+
+function normalizePoemQuery(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[\s　，。！？、；："'「」『』《》〈〉（）()·.・-]/g, '');
+}
+
+function getFallbackPoem(input) {
+  const q = normalizePoemQuery(input);
+  if (!q) return null;
+
+  let best = null;
+  FALLBACK_POEMS.forEach((poem, index) => {
+    const terms = [poem.title, poem.author, poem.dynasty, ...(poem.aliases || [])];
+    terms.forEach(term => {
+      const t = normalizePoemQuery(term);
+      if (!t) return;
+      let score = 0;
+      if (q === t) score = 120;
+      else if (q.includes(t)) score = 80 + Math.min(t.length, 20);
+      else if (t.includes(q)) score = 55 + Math.min(q.length, 20);
+
+      if (score && (!best || score > best.score || (score === best.score && index < best.index))) {
+        best = { poem, score, index };
+      }
+    });
+  });
+
+  return best ? JSON.parse(JSON.stringify(best.poem)) : null;
+}
+
+function cleanPoemLibraryText(s, maxChars = 180) {
+  let text = String(s || '')
+    .replace(/\r/g, '')
+    .replace(/\n+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/賞析[一二三四]?\s*/g, '')
+    .replace(/譯文及注釋\s*/g, '')
+    .replace(/創作背景\s*/g, '')
+    .trim();
+
+  if (text.length > maxChars) {
+    text = `${text.slice(0, maxChars).replace(/[，、；：,.:\s]+$/u, '')}……`;
+  }
+  return text;
+}
+
+function firstLibraryText(arr) {
+  return Array.isArray(arr)
+    ? String(arr.find(Boolean) || '').trim()
+    : String(arr || '').trim();
+}
+
+function parseLibraryAuthor(raw) {
+  const text = String(raw || '').replace(/\r/g, '').trim();
+  const parts = text.split(/[：:]/).map(p => p.replace(/\s+/g, '').trim()).filter(Boolean);
+  const author = (parts.length > 1 ? parts[parts.length - 1] : text.replace(/\s+/g, '')) || '佚名';
+  const dynasty = (parts.length > 1 ? parts.slice(0, -1).join('') : '')
+    .replace(/代$/u, '')
+    .replace(/\s+/g, '');
+
+  return { author, dynasty };
+}
+
+function extractLibraryTranslation(item) {
+  const raw = firstLibraryText(item.translations);
+  if (!raw) return '';
+
+  const match = raw.match(/譯文\s*([\s\S]*?)(?:\n\s*注釋|\n\s*賞析|$)/u);
+  return cleanPoemLibraryText(match ? match[1] : raw, 220);
+}
+
+function extractLibraryAnalysis(item) {
+  return cleanPoemLibraryText(firstLibraryText(item.analyses), 180);
+}
+
+function extractLibraryHistory(item) {
+  return cleanPoemLibraryText(firstLibraryText(item.others), 180);
+}
+
+function inferLibraryDevices(item) {
+  const lines = Array.isArray(item.content) ? item.content : [];
+  const firstLine = normalizePoemQuery(lines[0] || '');
+  const charCount = Array.from(firstLine).length;
+  const devices = [];
+
+  if (charCount === 5) devices.push(lines.length >= 8 ? '五言律詩' : '五言絕句');
+  else if (charCount === 7) devices.push(lines.length >= 8 ? '七言律詩' : '七言絕句');
+  else devices.push('古典詩詞');
+
+  const joined = lines.join('');
+  if (/[山水江河月雲風雨花鳥]/u.test(joined)) devices.push('意象鋪陳');
+  if (/[愁恨淚別思憶]/u.test(joined)) devices.push('借景抒情');
+  if (/[上下天地古今]/u.test(joined)) devices.push('時空對照');
+
+  return [...new Set(devices)].slice(0, 3);
+}
+
+function inferLibraryEmotion(item) {
+  const text = `${item.title || ''}${(item.content || []).join('')}${firstLibraryText(item.analyses)}`;
+  let primary = '含蓄詩情';
+  let intensity = '中等';
+  let modernEcho = '像在日常片刻中忽然被一句話照見心事，安靜卻久久不散。';
+
+  if (/[邊塞征戰胡馬沙場烽火]/u.test(text)) {
+    primary = '悲壯'; intensity = '高昂';
+    modernEcho = '像看見遠方危局時，心中同時生出牽掛與守護的願望。';
+  } else if (/[故鄉鄉思歸夢客舍]/u.test(text)) {
+    primary = '思鄉'; intensity = '深切';
+    modernEcho = '像異地深夜突然想起家裡的燈，還未開口，思念已經先到。';
+  } else if (/[別離送別離人]/u.test(text)) {
+    primary = '離情'; intensity = '含蓄深長';
+    modernEcho = '像送人離站後，人潮散去，心裡仍留著剛才那一句珍重。';
+  } else if (/[春花落風雨]/u.test(text)) {
+    primary = '惜春'; intensity = '輕柔';
+    modernEcho = '像雨後看見滿地落花，才驚覺時間已悄悄走遠。';
+  } else if (/[山水空禪鳥月溪]/u.test(text)) {
+    primary = '清幽'; intensity = '淡遠';
+    modernEcho = '像關掉喧鬧通知後，才聽見空氣裡細小而安定的聲音。';
+  }
+
+  return {
+    primary,
+    intensity,
+    analysis: extractLibraryAnalysis(item) || `《${item.title}》以原文意象推進情緒，讓景物與心境互相映照。讀者可先抓住詩中反覆出現的景物，再回看詩人真正不忍明說的心事。`,
+    modernEcho
+  };
+}
+
+function libraryItemToRenderPoem(item) {
+  const { author, dynasty } = parseLibraryAuthor(item.author);
+  const lines = Array.isArray(item.content) ? item.content.filter(Boolean) : [];
+  const fullText = lines.join('\n');
+  const analysis = extractLibraryAnalysis(item);
+  const history = extractLibraryHistory(item);
+
+  return {
+    title: item.title || '未題',
+    author,
+    dynasty,
+    fullText,
+    monologue: `吾作《${item.title || '此詩'}》，把「${lines[0] || '眼前景'}」藏入開篇，又讓「${lines[lines.length - 1] || '心中意'}」收束餘韻。汝若問此詩，先從景中看情，再從短句裡聽未盡之聲。`,
+    semantic: {
+      translation: extractLibraryTranslation(item) || `本機詩庫收錄《${item.title || '此詩'}》原文。此處未附完整譯文，可先依詩句意象理解其情境與轉折。`,
+      devices: inferLibraryDevices(item)
+    },
+    emotion: inferLibraryEmotion(item),
+    history: {
+      context: history || analysis || `此詩出自本機詩詞資料庫。資料含原文與賞析欄位，可作為離線查詩與 API 限流時的備援來源。`,
+      source: '本機詩庫 poems (1).json'
+    }
+  };
+}
+
+function scoreLibraryPoem(item, q, loose = false) {
+  const { author, dynasty } = parseLibraryAuthor(item.author);
+  const title = normalizePoemQuery(item.title);
+  const writer = normalizePoemQuery(author);
+  const era = normalizePoemQuery(dynasty);
+  const lines = Array.isArray(item.content) ? item.content.map(normalizePoemQuery).filter(Boolean) : [];
+  const fullText = normalizePoemQuery(lines.join(''));
+  let score = 0;
+
+  if (q === title) score = Math.max(score, 180);
+  else if (title.includes(q) && q.length >= 2) score = Math.max(score, 130 + q.length);
+  else if (q.includes(title) && title.length >= 2) score = Math.max(score, 115 + title.length);
+
+  lines.forEach(line => {
+    if (q === line) score = Math.max(score, 170);
+    else if (line.includes(q) && q.length >= 2) score = Math.max(score, 145 + q.length);
+    else if (q.includes(line) && line.length >= 4) score = Math.max(score, 120 + line.length);
+  });
+
+  if (writer && q === writer) score = Math.max(score, 90);
+  else if (writer && (q.includes(writer) || writer.includes(q)) && q.length >= 2) score = Math.max(score, 70);
+  if (era && q === era) score = Math.max(score, 40);
+
+  if (loose && fullText.includes(q) && q.length >= 2) score = Math.max(score, 80 + q.length);
+
+  return score;
+}
+
+function normalizeLocalPoemLibrary(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (Array.isArray(raw?.data)) return raw.data;
+  if (Array.isArray(raw?.poems)) return raw.poems;
+  return [];
+}
+
+async function ensureLocalPoemDataLoaded() {
+  if (localPoemDataAttempted && Array.isArray(LOCAL_POEM_DATA)) return LOCAL_POEM_DATA;
+  if (Array.isArray(LOCAL_POEM_DATA) && LOCAL_POEM_DATA.length) return LOCAL_POEM_DATA;
+  if (localPoemDataLoadPromise) return localPoemDataLoadPromise;
+
+  localPoemDataLoadPromise = (async () => {
+    localPoemDataAttempted = true;
+    try {
+      const resp = await fetch(LOCAL_POEM_LIBRARY_URL, { cache:'force-cache' });
+      if (!resp.ok) throw new Error(`LOCAL_POEM_LIBRARY_HTTP_${resp.status}`);
+      const json = await resp.json();
+      LOCAL_POEM_DATA = normalizeLocalPoemLibrary(json);
+      localPoemDataLoadError = '';
+      return LOCAL_POEM_DATA;
+    } catch (e) {
+      LOCAL_POEM_DATA = [];
+      localPoemDataLoadError = String(e?.message || e || 'LOCAL_POEM_LIBRARY_LOAD_FAILED');
+      return LOCAL_POEM_DATA;
+    } finally {
+      localPoemDataLoadPromise = null;
+    }
+  })();
+
+  return localPoemDataLoadPromise;
+}
+
+function getLibraryPoemFromLoadedData(input, options = {}) {
+  const q = normalizePoemQuery(input);
+  if (!q || !Array.isArray(LOCAL_POEM_DATA) || !LOCAL_POEM_DATA.length) return null;
+
+  const loose = Boolean(options.loose);
+  let best = null;
+
+  LOCAL_POEM_DATA.forEach((item, index) => {
+    const score = scoreLibraryPoem(item, q, loose);
+    if (score && (!best || score > best.score || (score === best.score && index < best.index))) {
+      best = { item, score, index };
+    }
+  });
+
+  return best ? libraryItemToRenderPoem(best.item) : null;
+}
+
+async function getLibraryPoem(input, options = {}) {
+  const data = await ensureLocalPoemDataLoaded();
+  if (!data.length) return null;
+  return getLibraryPoemFromLoadedData(input, options);
+}
+
+async function getLocalPoem(input, options = {}) {
+  return getFallbackPoem(input) || await getLibraryPoem(input, options);
+}
+function appendPoemNotice(text) {
+  const poemCard = document.querySelector('.poem-scroll');
+  if (!poemCard) return;
+  const note = document.createElement('div');
+  note.className = 'src-note';
+  note.textContent = text;
+  poemCard.appendChild(note);
+}
+
+function showLocalLibraryNotice() {
+  const count = Array.isArray(LOCAL_POEM_DATA) ? LOCAL_POEM_DATA.length : 0;
+  if (count > 0) {
+    appendPoemNotice(`本機詩庫：已從 poems.json 載入 ${count} 首詩詞資料，未消耗 Gemini API。`);
+    return;
+  }
+  appendPoemNotice(`本機詩庫：使用內建精簡備援，未消耗 Gemini API。`);
+}
+
+function showFallbackNotice(e) {
+  const loadHint = localPoemDataLoadError ? ` 本機詩庫載入狀態：${localPoemDataLoadError}` : '';
+  appendPoemNotice(`本機詩庫備援：Gemini 暫時無法回應，已先用本機詩詞資料召回詩魂。${friendlyApiError(e)}${loadHint}`);
+}
+function showLocalRecommendNotice(query) {
+  appendPoemNotice(`本機推薦：依「${query}」關鍵字相近度顯示，未消耗 Gemini API。`);
+}
+
+function renderActionableErrorCard(query, err) {
+  const output = document.getElementById('output');
+  if (!output) return;
+  const safeQuery = escapeHTML(query || '');
+  output.innerHTML = `
+    <div class="error">
+      <div class="error-title">詩 魂 今 夜 未 現，請 再 試 一 次</div>
+      <div class="error-detail" id="error-detail">${escapeHTML(friendlyApiError(err))}</div>
+      <div class="error-query">查 詢：${safeQuery || '（無）'}</div>
+      <div class="error-actions">
+        <button class="error-btn" type="button" onclick="retrySummonFromError()">重試 API</button>
+        <button class="error-btn" type="button" onclick="switchApiKeyFromError()">切換新的 API Key</button>
+        <button class="error-btn" type="button" onclick="recommendLocalSimilarFromError()">推薦本機類似文章</button>
+      </div>
+    </div>`;
+}
+
+function retrySummonFromError() {
+  const input = document.getElementById('poem-input');
+  if (input && lastFailedPoemQuery) input.value = lastFailedPoemQuery;
+  summon();
+}
+
+function switchApiKeyFromError() {
+  clearGeminiApiKey();
+  promptForGeminiApiKey(true);
+}
+
+async function recommendLocalSimilarFromError() {
+  const input = document.getElementById('poem-input');
+  const query = (input?.value || lastFailedPoemQuery || '').trim();
+  if (!query) return;
+
+  const localPoem = await getLocalPoem(query, { loose:true });
+  if (!localPoem) {
+    const detail = document.getElementById('error-detail');
+    if (detail) {
+      const suffix = localPoemDataLoadError
+        ? `（poems.json 載入失敗：${localPoemDataLoadError}）`
+        : '';
+      detail.textContent = `本機詩庫未找到相近作品，請換關鍵字或作者名。${suffix}`;
+    }
+    return;
+  }
+  render(localPoem, { source:'local' });
+  showLocalRecommendNotice(query);
+  setApiStatus('local');
+  setTimeout(() => {
+    const poemCard = document.querySelector('.poem-scroll') || document.getElementById('output');
+    smoothScrollToElement(poemCard, { block:'start', duration:920 });
+  }, 160);
+}
+
+// ══ 柔順捲動工具 ══
+function smoothScrollToElement(el, options = {}) {
+  if (!el) return;
+
+  const {
+    block = 'start',
+    duration = 760,
+    extraOffset = 0
+  } = options;
+
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    el.scrollIntoView({ block, behavior: 'auto' });
+    return;
+  }
+
+  const rect = el.getBoundingClientRect();
+  const startY = window.scrollY || window.pageYOffset;
+  const viewportH = window.innerHeight;
+  const mobileOffset = window.innerWidth <= 900 ? 78 : 18;
+
+  let targetY;
+  if (block === 'center') {
+    targetY = startY + rect.top - (viewportH / 2) + (rect.height / 2) - extraOffset;
+  } else {
+    targetY = startY + rect.top - mobileOffset - extraOffset;
+  }
+
+  targetY = Math.max(0, targetY);
+
+  const distance = targetY - startY;
+  if (Math.abs(distance) < 2) return;
+
+  const startTime = performance.now();
+  const easeInOutCubic = t => (
+    t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2
+  );
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const y = startY + distance * easeInOutCubic(t);
+    window.scrollTo(0, y);
+
+    if (t < 1) requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// 新內容出現時的柔順跟隨。
+// 只在內容不夠完整地出現在畫面中時才捲動，避免太頻繁干擾使用者。
+function smoothFollowNewContent(el, options = {}) {
+  if (!el) return;
+
+  const {
+    duration = 760,
+    block = 'end',
+    extraOffset = 18
+  } = options;
+
+  const rect = el.getBoundingClientRect();
+  const viewportTop = window.innerWidth <= 900 ? 82 : 24;
+  const viewportBottom = window.innerHeight - 28;
+
+  const alreadyComfortablyVisible =
+    rect.top >= viewportTop &&
+    rect.bottom <= viewportBottom;
+
+  if (alreadyComfortablyVisible) return;
+
+  // 新內容通常要讓底部自然進入視線，閱讀時比較順。
+  if (block === 'end') {
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      el.scrollIntoView({ block:'end', behavior:'auto' });
+      return;
+    }
+
+    const startY = window.scrollY || window.pageYOffset;
+    const targetY = Math.max(
+      0,
+      startY + rect.bottom - window.innerHeight + extraOffset
+    );
+    const distance = targetY - startY;
+    if (Math.abs(distance) < 2) return;
+
+    const startTime = performance.now();
+    const easeInOutCubic = t => (
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2
+    );
+
+    function animate(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * easeInOutCubic(t));
+      if (t < 1) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+    return;
+  }
+
+  smoothScrollToElement(el, { block, duration, extraOffset });
+}
+
+// ══ 頁面切換 ══
+function showPage(id, tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+  const page = document.getElementById(id);
+  page.classList.add('active');
+  tab.classList.add('active');
+
+  if (id === 'p3') renderCollection();
+
+  // 切換不同功能頁時，柔順移到該頁開頭
+  requestAnimationFrame(() => {
+    smoothScrollToElement(page, { block:'start', duration:680 });
+  });
+}
+
+// ══ 收藏 ══
+let collection = JSON.parse(localStorage.getItem('poemlens_col') || '[]');
+let currentPoem = {};
+
+function saveCol() {
+  localStorage.setItem('poemlens_col', JSON.stringify(collection));
+  document.getElementById('collect-badge').textContent = collection.length;
+}
+
+function toggleSave() {
+  const btn = document.getElementById('save-btn');
+  if (!btn) return;
+  const idx = collection.findIndex(p => p.title === currentPoem.title);
+  if (idx >= 0) {
+    collection.splice(idx, 1);
+    btn.textContent = '收 藏'; btn.classList.remove('saved');
+  } else {
+    collection.push({ ...currentPoem, savedAt: Date.now() });
+    btn.textContent = '已 收 藏'; btn.classList.add('saved');
+  }
+  saveCol();
+}
+
+function renderCollection() {
+  const el = document.getElementById('col-content');
+  if (!collection.length) {
+    el.innerHTML = '<div class="col-empty">— 尚 未 收 藏 任 何 詩 作 —<br><br><span style="font-size:12px">去「通靈問詩」找一首吧</span></div>';
+    return;
+  }
+  el.innerHTML = `<div class="col-grid">${collection.map((p,i) => `
+    <div class="col-card" onclick="loadPoem(${i})">
+      <button class="col-del" onclick="delCol(event,${i})">✕</button>
+      <div class="col-title">${escapeHTML(p.title)}</div>
+      <div class="col-meta">${escapeHTML(p.author)} ・ ${escapeHTML(p.dynasty)}</div>
+      <div class="col-preview">${escapeHTML(p.fullText?.replace(/\n/g,'　'))}</div>
+    </div>`).join('')}</div>`;
+}
+
+function delCol(e, i) {
+  e.stopPropagation();
+  collection.splice(i, 1);
+  saveCol(); renderCollection();
+}
+
+function loadPoem(i) {
+  const p = collection[i];
+  showPage('p1', document.querySelectorAll('.nav-tab')[0]);
+  setTimeout(() => {
+    render(p, { source: p.source || 'gemini' });
+    setTimeout(() => {
+      const poemCard = document.querySelector('.poem-scroll');
+      smoothScrollToElement(poemCard, { block:'start', duration:900 });
+    }, 120);
+  }, 100);
+}
+
+// 初始化
+document.getElementById('collect-badge').textContent = collection.length;
+
+// ══ 頁面1：分析 ══
+function fill(t, btn) {
+  document.getElementById('poem-input').value = t;
+  document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+
+  // 按下範例按鈕後，自動滑動到「焚 香 問 詩」出現在畫面中
+  setTimeout(() => {
+    const submitBtn = document.getElementById('submit-btn');
+    smoothScrollToElement(submitBtn, { block:'center', duration:720 });
+  }, 120);
+}
+
+const loadingMsgs = ['點 燃 香 爐 ⋯', '翻 閱 古 卷 ⋯', '召 喚 詩 魂 ⋯', '詩 人 正 在 回 應 ⋯'];
+let loadTimer = null;
+
+function startLoading() {
+  const box = document.getElementById('loading');
+  const txt = document.getElementById('loading-text');
+  box.classList.add('show');
+  document.body.classList.add('loading-open');
+
+  let i = 0; 
+  txt.textContent = loadingMsgs[0];
+
+  loadTimer = setInterval(() => {
+    i = (i+1) % loadingMsgs.length;
+    txt.style.animation = 'none'; 
+    txt.offsetHeight;
+    txt.style.animation = 'fadeUp 1s';
+    txt.textContent = loadingMsgs[i];
+  }, 1300);
+}
+
+function stopLoading() {
+  clearInterval(loadTimer);
+  document.getElementById('loading').classList.remove('show');
+  document.body.classList.remove('loading-open');
+}
+
+async function summon() {
+  const input = document.getElementById('poem-input').value.trim();
+  const output = document.getElementById('output');
+  const btn = document.getElementById('submit-btn');
+  if (!input) { output.innerHTML = '<div class="error">心 中 須 有 所 念</div>'; return; }
+  btn.disabled = true; output.innerHTML = '';
+
+  const localPoem = await getLocalPoem(input);
+  if (localPoem) {
+    render(localPoem, { source:'local' });
+    showLocalLibraryNotice();
+    if (!sessionStorage.getItem(GEMINI_API_KEY_STORAGE)) setApiStatus('local');
+    setTimeout(() => {
+      const poemCard = document.querySelector('.poem-scroll') || document.getElementById('output');
+      smoothScrollToElement(poemCard, { block:'start', duration:920 });
+    }, 160);
+    btn.disabled = false;
+    return;
+  }
+
+  startLoading();
+
+  const prompt = `你是中國古典詩詞資料查詢器。使用者輸入可能是作者名、詩句片段、詩名或意境描述。
+使用者輸入：「${input}」
+嚴格只回傳一個 JSON object，不要 markdown 標記，不要額外解釋。
+fullText 只能放詩詞原文，不可放翻譯、注釋、英文、拼音、賞析或資料來源。
+所有說明欄位保持精簡，避免長篇賞析。
+monologue：詩人第一人稱半文半白獨白，30-55字。
+modernEcho：現代生活情境類比，15-30字。
+{
+  "title":"詩名","author":"作者","dynasty":"朝代",
+  "fullText":"原文句間用\\n",
+  "monologue":"詩人獨白",
+  "semantic":{"translation":"白話翻譯40-70字","devices":["修辭1","修辭2","體裁"]},
+  "emotion":{"primary":"主要情緒","intensity":"強度","analysis":"情緒分析35-65字","modernEcho":"現代類比"},
+  "history":{"context":"創作背景40-70字","source":"典籍出處"}
+  }`;
+
+  try {
+    let r;
+    try {
+      r = await requestPoemJson(prompt, GEMINI_MODEL);
+    } catch(formatError) {
+      if (!isGeminiFormatError(formatError) || GEMINI_MODEL === GEMINI_FALLBACK_MODEL) throw formatError;
+      r = await requestPoemJson(prompt, GEMINI_FALLBACK_MODEL);
+    }
+    stopLoading();
+    render(r, { source:'gemini' });
+    setTimeout(() => {
+      const poemCard = document.querySelector('.poem-scroll') || document.getElementById('output');
+      smoothScrollToElement(poemCard, { block:'start', duration:920 });
+    }, 160);
+  } catch(e) {
+    setApiStatusFromError(e);
+    stopLoading();
+    const fallbackPoem = await getLocalPoem(input, { loose:true });
+    if (fallbackPoem) {
+      render(fallbackPoem, { source:'local' });
+      showFallbackNotice(e);
+      setTimeout(() => {
+        const poemCard = document.querySelector('.poem-scroll') || document.getElementById('output');
+        smoothScrollToElement(poemCard, { block:'start', duration:920 });
+      }, 160);
+    } else {
+      lastFailedPoemQuery = input;
+      renderActionableErrorCard(input, e);
+    }
+  } finally { btn.disabled = false; }
+}
+
+function render(r, options = {}) {
+  const sourceKind = options.source === 'local' ? 'local' : 'gemini';
+  const sourceText = sourceKind === 'local' ? '本機詩庫' : 'Gemini';
+  currentPoem = {
+    title:r.title,
+    author:r.author,
+    dynasty:r.dynasty,
+    fullText:r.fullText,
+    semantic:r.semantic,
+    emotion:r.emotion,
+    history:r.history,
+    source: sourceKind
+  };
+  const saved = collection.findIndex(p => p.title === r.title) >= 0;
+  const devs = (r.semantic?.devices||[]).map((d,i)=>`<span class="tag-item t${(i%3)+1}">${escapeHTML(d)}</span>`).join('');
+
+  document.getElementById('output').innerHTML = `
+    <div class="poem-scroll">
+      <div class="poem-overview-grid">
+        <section class="poem-original-panel">
+          <div class="poem-panel-top">
+            <div class="poem-panel-label">— 詩 作 原 文 —</div>
+            <div class="font-size-controls" aria-label="調整詩文字大小">
+              <button class="font-size-btn" type="button" onclick="changePoemFontSize(-1)" title="縮小字體">字 小</button>
+              <span class="font-size-value" id="poem-font-size-value">17</span>
+              <button class="font-size-btn" type="button" onclick="changePoemFontSize(1)" title="放大字體">字 大</button>
+            </div>
+          </div>
+          <div class="poem-text-wrap"><div class="poem-text">${escapeHTML(r.fullText)}</div></div>
+        </section>
+
+        <section class="poem-head poem-title-card">
+          <div class="poem-head-main">
+            <div class="title-panel-top">
+              <div class="reveal-label">— 詩 魂 現 身 —</div>
+              <div class="font-size-controls title-font-controls" aria-label="調整篇名字大小">
+                <button class="font-size-btn" type="button" onclick="changeTitleFontSize(-1)" title="縮小篇名">字 小</button>
+                <span class="font-size-value" id="title-font-size-value">32</span>
+                <button class="font-size-btn" type="button" onclick="changeTitleFontSize(1)" title="放大篇名">字 大</button>
+              </div>
+            </div>
+
+            <div class="poem-title-card-body">
+              <div class="poem-title">${escapeHTML(r.title)}</div>
+              <div class="poem-meta-info">${escapeHTML(r.author)} ・ ${escapeHTML(r.dynasty)}</div>
+            </div>
+          </div>
+
+          <div class="poem-head-bottom">
+            <div class="poem-source-note source-${sourceKind}">來源：${sourceText}</div>
+            <div class="poem-head-right">
+              <button class="save-btn ${saved?'saved':''}" id="save-btn" onclick="toggleSave()">${saved?'已 收 藏':'收 藏'}</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="monologue-wrap" id="monologue-wrap">
+        <div class="monologue-label">— 詩 魂 自 語 —</div>
+      </section>
+
+      <div class="completion-seal">已 通 靈</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="swTab(event,'sem')">詩 魂 自 述</button>
+      <button class="tab" onclick="swTab(event,'emo')">心 緒 透 視</button>
+      <button class="tab" onclick="swTab(event,'his')">魂 歸 何 處</button>
+    </div>
+    <div id="tab-sem" class="tab-content active">
+      <div class="sec-label">— 白 話 釋 義 —</div>
+      <div class="sec-txt sentence-break">${formatProse(r.semantic?.translation||'')}</div>
+      <div class="sec-label">— 修 辭 與 體 裁 —</div>
+      <div class="sec-tags">${devs}</div>
+    </div>
+    <div id="tab-emo" class="tab-content">
+      <div class="emo-row">
+        <div class="emo-cell"><div class="el">主要情緒</div><div class="ev">${escapeHTML(r.emotion?.primary||'')}</div></div>
+        <div class="emo-cell"><div class="el">情緒強度</div><div class="ev">${escapeHTML(r.emotion?.intensity||'')}</div></div>
+      </div>
+      <div class="sec-label">— 情 緒 層 次 —</div>
+      <div class="sec-txt sentence-break">${formatProse(r.emotion?.analysis||'')}</div>
+      <div class="echo-box">
+        <div class="echo-lbl">— 現 代 回 聲 —</div>
+        <div class="echo-txt">${escapeHTML(r.emotion?.modernEcho||'')}</div>
+      </div>
+    </div>
+    <div id="tab-his" class="tab-content">
+      <div class="sec-label">— 創 作 背 景 —</div>
+      <div class="sec-txt sentence-break">${formatProse(r.history?.context||'')}</div>
+      <div class="src-note">典 籍 可 考：${escapeHTML(r.history?.source||'')}</div>
+    </div>
+    <div class="chat-section" id="chat-section">
+      <div class="chat-label">— 向 詩 魂 提 問 —</div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-wrap">
+        <input class="chat-input" id="chat-input" placeholder="問詩人任何問題…"/>
+        <button class="chat-send" id="chat-send" onclick="sendQ()">問 之</button>
+      </div>
+    </div>`;
+
+  // 依作品長度與版面寬度，自動調整直排詩文高度
+  requestAnimationFrame(() => {
+    applyPoemFontSize();
+    applyTitleFontSize();
+    fitPoemLayout();
+    fitPoemTitleLayout();
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        applyPoemFontSize();
+        applyTitleFontSize();
+        fitPoemLayout();
+        fitPoemTitleLayout();
+      });
+    }
+  });
+
+  // 打字機獨白
+  if (r.monologue) startTypewriter(r.monologue);
+
+  // 初始化對談
+  initChat(r);
+
+  // Enter 送出
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendQ(); }
+  });
+}
+
+let poemResizeTimer = null;
+
+let poemFontSize = Number(localStorage.getItem('poemlens_poem_font_size') || 17);
+let titleFontSize = Number(localStorage.getItem('poemlens_title_font_size') || 32);
+
+function clamp(n, min, max) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function applyPoemFontSize() {
+  poemFontSize = clamp(poemFontSize, 14, 26);
+  document.documentElement.style.setProperty('--dynamic-poem-font-size', `${poemFontSize}px`);
+
+  const textEl = document.querySelector('.poem-text');
+  if (textEl) textEl.style.fontSize = `${poemFontSize}px`;
+
+  const label = document.getElementById('poem-font-size-value');
+  if (label) label.textContent = poemFontSize;
+
+  localStorage.setItem('poemlens_poem_font_size', poemFontSize);
+  fitPoemLayout();
+}
+
+function applyTitleFontSize() {
+  titleFontSize = clamp(titleFontSize, 18, 32);
+
+  const titleEl = document.querySelector('.poem-title');
+  if (titleEl) titleEl.style.fontSize = `${titleFontSize}px`;
+
+  // 作者朝代跟著篇名字級小幅調整，保持比例
+  const metaEl = document.querySelector('.poem-meta-info');
+  if (metaEl) {
+    const metaSize = clamp(Math.round(titleFontSize * 0.54), 11, 17);
+    metaEl.style.fontSize = `${metaSize}px`;
+  }
+
+  const label = document.getElementById('title-font-size-value');
+  if (label) label.textContent = titleFontSize;
+
+  localStorage.setItem('poemlens_title_font_size', titleFontSize);
+  fitPoemTitleLayout();
+}
+
+function changePoemFontSize(delta) {
+  poemFontSize += delta;
+  applyPoemFontSize();
+}
+
+function changeTitleFontSize(delta) {
+  titleFontSize += delta;
+  applyTitleFontSize();
+}
+
+function fitPoemTitleLayout() {
+  const titleCardBody = document.querySelector('.poem-title-card-body');
+  const title = document.querySelector('.poem-title');
+  const meta = document.querySelector('.poem-meta-info');
+  const head = document.querySelector('.poem-head');
+  if (!titleCardBody || !title || !meta || !head) return;
+
+  titleCardBody.style.height = 'auto';
+  titleCardBody.style.minHeight = '0';
+  title.style.height = 'auto';
+  meta.style.height = 'auto';
+  head.style.height = '';
+  head.style.minHeight = '0';
+}
+
+function fitPoemLayout() {
+  const wrap = document.querySelector('.poem-text-wrap');
+  const text = document.querySelector('.poem-text');
+  if (!wrap || !text) return;
+
+  const style = getComputedStyle(text);
+  const fontSize = parseFloat(style.fontSize) || 17;
+  const letterSpacing = parseFloat(style.letterSpacing) || 4;
+  const isSmallScreen = window.innerWidth <= 640;
+
+  // 依最長詩句估算直排所需高度。
+  // 長詞的欄數交給容器橫向捲動，不再把整個區塊往下撐高。
+  const raw = text.textContent || '';
+  const lines = raw
+    .split(/\n+/)
+    .map(line => line.replace(/\s+/g, '').trim())
+    .filter(Boolean);
+
+  const maxChars = lines.length
+    ? Math.max(...lines.map(line => Array.from(line).length))
+    : Math.max(4, Array.from(raw.replace(/\s+/g, '')).length);
+
+  const charPitch = fontSize + letterSpacing + (isSmallScreen ? 3 : 5);
+  let h = Math.ceil(maxChars * charPitch + (isSmallScreen ? 34 : 42));
+
+  // 合理上下限：短詩緊湊，長詞固定在可閱讀高度內。
+  h = Math.max(isSmallScreen ? 165 : 185, Math.min(h, isSmallScreen ? 330 : 360));
+
+  text.style.height = `${h}px`;
+
+  const hasHorizontalOverflow = text.scrollWidth > wrap.clientWidth + 1;
+  wrap.style.justifyContent = hasHorizontalOverflow ? 'flex-start' : 'flex-end';
+  if (hasHorizontalOverflow) {
+    requestAnimationFrame(() => {
+      wrap.scrollLeft = wrap.scrollWidth;
+    });
+  }
+}
+
+function scheduleFitPoemLayout() {
+  clearTimeout(poemResizeTimer);
+  poemResizeTimer = setTimeout(() => {
+    applyPoemFontSize();
+    applyTitleFontSize();
+    fitPoemLayout();
+    fitPoemTitleLayout();
+  }, 80);
+}
+
+window.addEventListener('resize', scheduleFitPoemLayout);
+
+function startTypewriter(text) {
+  const wrap = document.getElementById('monologue-wrap');
+  const span = document.createElement('span'); span.id = 'tw-span';
+  const cursor = document.createElement('span'); cursor.className = 'tw-cursor';
+  wrap.appendChild(span); wrap.appendChild(cursor);
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      span.textContent += text[i];
+      const d = '，。！？⋯'.includes(text[i]) ? 260 : 55;
+      i++; setTimeout(type, d);
+    } else { cursor.classList.add('done'); }
+  }
+  setTimeout(type, 500);
+}
+
+function swTab(e, name) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// 詩人對談
+let chatHistory = [];
+function initChat(r) {
+  chatHistory = [
+    { role:'user', parts:[{text:`你是詩人「${r.author}」，以第一人稱半文半白回應，每次80字以內，只回詩人說的話。詩作《${r.title}》：${r.fullText}`}] },
+    { role:'model', parts:[{text:`我乃${r.author}。《${r.title}》一詩，乃吾心中所念。汝有何要問？`}] }
+  ];
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  msgs.innerHTML = '';
+  const m = document.createElement('div');
+  m.className = 'msg msg-poet';
+  m.innerHTML = `<div class="msg-name">${escapeHTML(r.author)}</div><div class="msg-bubble">我乃${escapeHTML(r.author)}。《${escapeHTML(r.title)}》一詩，乃吾心中所念。汝有何要問？</div>`;
+  msgs.appendChild(m);
+}
+
+function localPoetReply(q) {
+  const poem = currentPoem || {};
+  const question = normalizePoemQuery(q);
+  const lines = String(poem.fullText || '').split(/\n+/).filter(Boolean);
+  const firstLine = lines[0] || poem.title || '此詩';
+  const lastLine = lines[lines.length - 1] || firstLine;
+
+  if (/意思|翻譯|白話|解釋|說什麼/u.test(question)) {
+    return poem.semantic?.translation || `吾此詩由「${firstLine}」起意，至「${lastLine}」收束。你可先看景，再看景中所藏之情。`;
+  }
+  if (/情緒|心情|感情|感受|為何悲|為何愁/u.test(question)) {
+    return poem.emotion?.analysis || `此中情意不在直說，而在景物轉折之間。讀「${firstLine}」，便能觸到吾當時心緒。`;
+  }
+  if (/背景|時代|何時|哪裡|出處|典故/u.test(question)) {
+    return poem.history?.context || `此詩留在舊籍與傳誦之中，背景可從題名與句中景物慢慢推求。`;
+  }
+  if (/修辭|手法|體裁|怎麼寫/u.test(question)) {
+    const devices = poem.semantic?.devices?.join('、');
+    return devices ? `此詩可從${devices}看起；吾以短句容景，使情在景後自然浮出。` : `此詩以凝練句法寫景寄情，少說一分，餘味便多一分。`;
+  }
+
+  return `此刻不借遠端詩魂，只以本機詩庫答你：吾在《${poem.title || '此詩'}》中，由「${firstLine}」入境，終讓「${lastLine}」留下餘音。你問處，正可從這一轉看見心事。`;
+}
+
+async function sendQ() {
+  const input = document.getElementById('chat-input');
+  const q = input.value.trim(); if (!q) return;
+  const btn = document.getElementById('chat-send');
+  btn.disabled = true; input.value = '';
+  const msgs = document.getElementById('chat-messages');
+  const uMsg = document.createElement('div');
+  uMsg.className = 'msg msg-user';
+  uMsg.innerHTML = `<div class="msg-name">問 詩 者</div><div class="msg-bubble">${escapeHTML(q)}</div>`;
+  msgs.appendChild(uMsg);
+  msgs.scrollTop = msgs.scrollHeight;
+  smoothFollowNewContent(uMsg, { block:'end', duration:620, extraOffset:26 });
+
+  chatHistory.push({ role:'user', parts:[{text:q}] });
+  const pMsg = document.createElement('div');
+  pMsg.className = 'msg msg-poet';
+  const bubble = document.createElement('div'); bubble.className = 'msg-bubble';
+  pMsg.innerHTML = `<div class="msg-name">${escapeHTML(currentPoem.author)}</div>`;
+  pMsg.appendChild(bubble);
+  msgs.appendChild(pMsg);
+  smoothFollowNewContent(pMsg, { block:'end', duration:680, extraOffset:28 });
+  try {
+    const data = await callGeminiWithRetry(chatHistory);
+    const reply = data.candidates[0].content.parts[0].text.trim();
+    chatHistory.push({ role:'model', parts:[{text:reply}] });
+    let i=0;
+    function type(){
+      if(i<reply.length){
+        bubble.textContent+=reply[i];
+        const d='，。！？⋯'.includes(reply[i])?200:45;
+        i++;
+        setTimeout(type,d);
+      }
+      msgs.scrollTop=msgs.scrollHeight;
+    }
+    type();
+    setTimeout(() => smoothFollowNewContent(pMsg, { block:'end', duration:760, extraOffset:28 }), 220);
+  } catch(e) {
+    setApiStatusFromError(e);
+    const reply = localPoetReply(q);
+    chatHistory.push({ role:'model', parts:[{text:reply}] });
+    await typeInto(reply, bubble);
+  }
+  finally { btn.disabled = false; }
+}
+
+document.getElementById('poem-input').addEventListener('keydown', e => { if(e.key==='Enter') summon(); });
+window.addEventListener('DOMContentLoaded', async () => {
+  setApiStatus('local');
+  const hadStoredKey = Boolean(sessionStorage.getItem(GEMINI_API_KEY_STORAGE));
+  promptForGeminiApiKey(false);
+  if (hadStoredKey) {
+    await testGeminiApiKey({ promptIfMissing:false, silent:true });
+  }
+});
+
+// ══ 頁面2：雙魂對話 ══
+const POETS = {
+  '李白':`你是詩人李白（701-762），盛唐浪漫主義詩人。個性豪放不羈、充滿自信、嚮往自由、好飲酒。代表意象：明月、美酒、長劍、大鵬。說話自信豪邁，語氣昂揚，常引「天生我材必有用」「舉杯邀明月」等意境。半文半白，60字以內，展現個性，可引用自己詩句。`,
+  '杜甫':`你是詩人杜甫（712-770），唐朝現實主義詩聖。個性憂國憂民、悲憫深沉。歷經安史之亂，親歷民間疾苦。代表意象：茅屋、烽火、瘦馬、秋風。說話沉鬱頓挫，常感嘆時局與民生。半文半白，60字以內，展現憂世情懷。`,
+  '王維':`你是詩人王維（701-761），盛唐山水詩人，人稱詩佛。個性淡泊名利、禪意深邃。晚年篤信佛教，居輞川別業。代表意象：空山、松風、竹林、月色。說話靜謐淡然，語調輕柔，帶禪意。半文半白，60字以內，語氣平和空靈。`,
+  '白居易':`你是詩人白居易（772-846），中唐現實主義詩人。個性親民平易、直白坦率。主張詩歌要讓老嫗能解。代表意象：琵琶、白髮、長恨、西湖。說話平易近人，語言清晰，偶爾幽默。半文半白，60字以內，語言比他人口語化。`,
+  '蘇軾':`你是詩人蘇軾（1037-1101），北宋文學巨擘，號東坡居士。個性曠達樂觀、哲思豐富、幽默風趣。仕途坎坷卻能從逆境找美好。代表意象：赤壁、東坡、江月、竹杖芒鞋。說話從容豁達，帶哲學思辨。半文半白，60字以內，展現曠達哲思。`,
+  '李清照':`你是詞人李清照（1084-約1155），宋朝最偉大的女詞人。個性情感細膩、才華橫溢、外柔內剛。前半生幸福，後半生顛沛。代表意象：梧桐、簾幕、酒盞、黃花。說話婉約深情，情感真摯，有剛烈之氣。半文半白，60字以內，展現女性視角的細膩與剛強。`,
+  '辛棄疾':`你是詞人辛棄疾（1140-1207），南宋豪放派詞人，曾為抗金武將。個性豪放激烈、壯志未酬、悲憤難平。歸宋後長期被閒置，只能以詞抒懷。代表意象：鐵馬冰河、欄杆拍遍、沙場、烽火。說話激昂有力，語氣常帶悲憤。半文半白，60字以內，比他人更剛烈直接。`,
+  '陶淵明':`你是詩人陶淵明（365-427），東晉田園詩派開創者，不為五斗米折腰。個性清高自守、淡泊自足、嚮往自然。歸隱田園，躬耕自足，以菊花和南山為伴。代表意象：菊花、東籬、南山、歸鳥、桃花源。說話平淡悠然，對名利不屑。半文半白，60字以內，語調悠緩，展現隱士從容。`
+};
+
+function updatePersona(ab) {
+  const sel = document.getElementById(`poet-${ab}`).value;
+  document.getElementById(`persona-${ab}`).value = POETS[sel] || '';
+  document.getElementById(`label-${ab}`).textContent = `${sel} Persona`;
+}
+
+function resetPersona(ab) {
+  const sel = document.getElementById(`poet-${ab}`).value;
+  document.getElementById(`persona-${ab}`).value = POETS[sel] || '';
+}
+
+function togglePersona() {
+  const panels = document.getElementById('persona-panels');
+  const btn = document.querySelector('.persona-toggle');
+  panels.classList.toggle('show');
+  btn.textContent = panels.classList.contains('show')
+    ? '▾ 收 起 Persona 設 定'
+    : '▸ 展 開 Persona 設 定（System Prompt）';
+}
+
+// 初始化 persona
+updatePersona('a'); updatePersona('b');
+
+let dHistory = [], dRound = 0, dRunning = false, dStop = false;
+
+async function startDialogue() {
+  const pA = document.getElementById('poet-a').value;
+  const pB = document.getElementById('poet-b').value;
+  const topic = document.getElementById('d-topic').value.trim() || '月亮';
+  if (pA === pB) { alert('請選擇兩位不同的詩人'); return; }
+  dHistory = []; dRound = 0; dStop = false;
+  document.getElementById('dialogue').innerHTML = '';
+  document.getElementById('more-btn').style.display = 'none';
+  document.getElementById('stage-status').textContent = '';
+  document.getElementById('stage-topic-label').textContent = `主題：${topic}`;
+  document.getElementById('stage-poets-label').textContent = `${pA} ✕ ${pB}`;
+  const stage = document.getElementById('stage');
+  stage.classList.add('show');
+  document.getElementById('start-btn').disabled = true;
+
+  requestAnimationFrame(() => {
+    smoothScrollToElement(stage, { block:'start', duration:820 });
+  });
+
+  await runRounds(pA, pB, topic, 4);
+}
+
+async function runRounds(pA, pB, topic, n) {
+  dRunning = true;
+  for (let i = 0; i < n; i++) {
+    if (dStop) break;
+    dRound++;
+    const isLeft = dRound % 2 === 1;
+    const speaker = isLeft ? pA : pB;
+    const listener = isLeft ? pB : pA;
+    const personaKey = isLeft ? 'a' : 'b';
+    const persona = document.getElementById(`persona-${personaKey}`).value;
+    await addTurn(speaker, listener, topic, persona, isLeft);
+    if (!dStop) await new Promise(r => setTimeout(r, 3500));
+  }
+  dRunning = false;
+  if (!dStop) {
+    document.getElementById('stage-status').textContent = '— 詩 魂 暫 歇 —';
+    const mb = document.getElementById('more-btn');
+    mb.style.display = 'inline-block';
+    // 保存閉包
+    mb.onclick = () => {
+      mb.style.display = 'none';
+      document.getElementById('stage-status').textContent = '';
+      dStop = false;
+      const pA2 = document.getElementById('poet-a').value;
+      const pB2 = document.getElementById('poet-b').value;
+      const t2 = document.getElementById('d-topic').value.trim() || '月亮';
+      runRounds(pA2, pB2, t2, 2);
+    };
+  }
+  document.getElementById('start-btn').disabled = false;
+}
+
+function localDialogueReply(speaker, topic, lastText) {
+  const seed = normalizePoemQuery(`${speaker}${topic}${lastText}`);
+  const tone = seed.length % 4;
+  if (tone === 0) return `${topic}在我眼中，不只是景，也是心。君方才所言，我願以一杯清思相應：景會變，情未必盡。`;
+  if (tone === 1) return `若論${topic}，我以為須從人間冷暖看起。詩不是空言，總要落在一念、一身、一時之中。`;
+  if (tone === 2) return `君言有意。我看${topic}，正如遠山含月，可近觀其形，也可遠聽其餘響。`;
+  return `${topic}一題，最怕說盡。留三分在風中，留三分在沉默裡，餘下才讓詩句自己行走。`;
+}
+
+async function addTurn(speaker, listener, topic, persona, isLeft) {
+  const dialogue = document.getElementById('dialogue');
+  document.getElementById('stage-status').textContent = `${speaker} 正在思索⋯`;
+  const lastText = dHistory.length ? dHistory[dHistory.length-1].text : '';
+  const userText = dHistory.length === 0
+    ? `請就「${topic}」開口，說出你的看法。`
+    : `${listener}說：「${lastText}」，請回應。`;
+  const contents = [
+    { role:'user', parts:[{text: persona}] },
+    { role:'model', parts:[{text:`明白，我是${speaker}，我會以此身份回應。`}] },
+    ...dHistory.flatMap(h => ([
+      { role:'user', parts:[{text: h.role===speaker ? '你剛才說了什麼？' : `${h.role}說：「${h.text}」`}] },
+      { role:'model', parts:[{text: h.role===speaker ? h.text : '我聽到了。'}] }
+    ])),
+    { role:'user', parts:[{text: userText}] }
+  ];
+
+  const turn = document.createElement('div');
+  turn.className = `d-turn ${isLeft?'d-left':'d-right'}`;
+  const nameEl = document.createElement('div'); nameEl.className = 'd-name'; nameEl.textContent = speaker;
+  const bubble = document.createElement('div'); bubble.className = 'd-bubble';
+  turn.appendChild(nameEl); turn.appendChild(bubble);
+  dialogue.appendChild(turn);
+  dialogue.scrollTop = dialogue.scrollHeight;
+  smoothFollowNewContent(turn, { block:'end', duration:700, extraOffset:34 });
+
+  try {
+    const data = await callGeminiWithRetry(contents);
+    const reply = data.candidates[0].content.parts[0].text.trim();
+    dHistory.push({ role: speaker, text: reply });
+    await typeInto(reply, bubble);
+  } catch(e) {
+    setApiStatusFromError(e);
+    const reply = localDialogueReply(speaker, topic, lastText);
+    dHistory.push({ role: speaker, text: reply });
+    await typeInto(reply, bubble);
+  }
+  document.getElementById('stage-status').textContent = '';
+  dialogue.scrollTop = dialogue.scrollHeight;
+  setTimeout(() => {
+    smoothFollowNewContent(turn, { block:'end', duration:780, extraOffset:36 });
+  }, 120);
+}
+
+function typeInto(text, el) {
+  return new Promise(resolve => {
+    let i = 0;
+    function t() {
+      if (i < text.length) {
+        el.textContent += text[i];
+        const d = '，。！？⋯'.includes(text[i]) ? 160 : 38;
+        i++; setTimeout(t, d);
+      } else resolve();
+    }
+    t();
+  });
+}
+
+function stopDialogue() {
+  dStop = true;
+  document.getElementById('stage-status').textContent = '— 對 話 終 止 —';
+  document.getElementById('more-btn').style.display = 'none';
+  document.getElementById('start-btn').disabled = false;
+}
+
+function formatProse(s) {
+  if (!s) return '';
+  const safe = escapeHTML(s).trim();
+
+  // 不再「一句一行」。
+  // 短句會自然合併；累積到一定長度後，才切成下一段。
+  // 例如：「明月是什麼時候出現的？我舉杯詢問蒼天。」會保留在同一段。
+  const sentences = safe
+    .split(/(?<=[。！？])/u)
+    .map(t => t.trim())
+    .filter(Boolean);
+
+  if (!sentences.length) return safe;
+
+  const maxCharsPerGroup = 34;
+  const groups = [];
+  let current = '';
+
+  sentences.forEach(sentence => {
+    const candidate = current + sentence;
+
+    if (current && candidate.length > maxCharsPerGroup) {
+      groups.push(current);
+      current = sentence;
+    } else {
+      current = candidate;
+    }
+  });
+
+  if (current) groups.push(current);
+
+  return groups
+    .map(group => `<span class="sentence">${group}</span>`)
+    .join('');
+}
+
+function escapeHTML(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+</script>
+</body>
+</html>

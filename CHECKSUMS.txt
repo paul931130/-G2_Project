@@ -1,0 +1,35 @@
+# CHECKSUMS
+
+Generated: 2026-06-01
+
+This file records SHA-256 hashes for release verification.
+Use it to confirm that files were not accidentally changed, omitted, or corrupted during upload.
+
+Expected project structure:
+
+```text
+shijing-poem-ai/
+├── index.html
+├── poems.json
+├── README.md
+├── USER_GUIDE.md
+└── CHECKSUMS.txt
+```
+
+SHA-256:
+
+87a16d200ea1100633e8ed256494b735859700d0e394d6bb5504573bc966af77  index.html
+c95c400c66e7f0b509a23cabac02c411b92e0ef9447a673dfc1133485058a7e3  poems.json
+089c9d88bda85df8f779274ee44ef777462f12c41f7fe0572fca26b3a37a18c8  README.md
+012ed43bce0a97731e456cb906bf3580ebe66357ac0c7bdf6b43d846bd630ac0  USER_GUIDE.md
+
+Security checklist before publishing:
+
+- Confirm `index.html` does not contain `AIza` or any hard-coded Gemini API Key.
+- Confirm `poems.json` does not contain private data.
+- Confirm no `.env`, password note, private file, or old HTML version is uploaded.
+
+API key hard-code scan result in generated package: PASS
+Local poem library lazy-load setting detected: YES
+sessionStorage usage detected: YES
+localStorage usage detected: YES
