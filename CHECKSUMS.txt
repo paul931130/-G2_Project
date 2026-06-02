@@ -1,35 +1,22 @@
-# CHECKSUMS
+# 詩境 GitHub Pages 發布檔案 SHA-256
 
-Generated: 2026-06-01
+Generated: 2026-06-03 00:26:44
 
-This file records SHA-256 hashes for release verification.
-Use it to confirm that files were not accidentally changed, omitted, or corrupted during upload.
+## Files
 
-Expected project structure:
-
-```text
-shijing-poem-ai/
-├── index.html
-├── poems.json
-├── README.md
-├── USER_GUIDE.md
-└── CHECKSUMS.txt
-```
-
-SHA-256:
-
-87a16d200ea1100633e8ed256494b735859700d0e394d6bb5504573bc966af77  index.html
+b45b1b1bd5e68374a67783c5c7ceaec36d88b95b84b7cb8d631b511a0cd30811  index.html
+6adc375390243e7c96e5c8ca5f261fe38f4a9f5cce5d578b14e6190da3472702  style.css
+84818fff7e940fbf721adb8e05b6cb978e7b3260e84b02dfd042607c3b5e5dd1  app.js
 c95c400c66e7f0b509a23cabac02c411b92e0ef9447a673dfc1133485058a7e3  poems.json
-089c9d88bda85df8f779274ee44ef777462f12c41f7fe0572fca26b3a37a18c8  README.md
-012ed43bce0a97731e456cb906bf3580ebe66357ac0c7bdf6b43d846bd630ac0  USER_GUIDE.md
+d135ad1e5e41006aa9fe73533da7054b002af701c4d6066c6e23d9020a5df885  README.md
+139312ed5aa1e459800f8dd5c993123a86ddc6105a7760332f164be3e3ab29a7  USER_GUIDE.md
+e1f76f1079f3a35e2a4e94d25dd8f94b063787837a75ae1713b65200073a5a61  PROJECT_REPORT.md
+0d8327eef32f64ef1071f7dffd340c87ea94a269ee6369e5125a46e1ab6ab4a1  PROJECT_REPORT.docx
+0b0d0c52f6623e361297d9da1739067b2ee2d397a1dcfde7816acd0e3f20938a  SOUL.md
 
-Security checklist before publishing:
+## Security checklist
 
-- Confirm `index.html` does not contain `AIza` or any hard-coded Gemini API Key.
-- Confirm `poems.json` does not contain private data.
-- Confirm no `.env`, password note, private file, or old HTML version is uploaded.
-
-API key hard-code scan result in generated package: PASS
-Local poem library lazy-load setting detected: YES
-sessionStorage usage detected: YES
-localStorage usage detected: YES
+- index.html does not contain a hardcoded Gemini API key.
+- app.js stores Gemini API keys only in sessionStorage.
+- poems.json is loaded as the local poem library.
+- GitHub Pages release remains a pure static website.
