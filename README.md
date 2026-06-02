@@ -6,11 +6,9 @@
 
 部署到 GitHub Pages 後，網址通常會是：
 
-```
-https://你的GitHub帳號.github.io/shijing-poem-ai/
-```
+https://paul931130.github.io/-shijing/
 
-如果 repository 名稱不同，請把上面的 `shijing-poem-ai` 改成你的 repo 名稱。
+如果 repository 名稱不同，請將網址最後的 `-shijing` 改成實際 repo 名稱。
 
 ## 專案特色
 
@@ -26,17 +24,24 @@ https://你的GitHub帳號.github.io/shijing-poem-ai/
 ## 檔案結構
 
 ```
-index.html          # 網站入口
-style.css           # 介面樣式
-app.js              # 互動與 API 邏輯
-poems.json          # 本機詩詞資料
-README.md           # 專案說明
-USER_GUIDE.md       # 使用者指南
-PROJECT_REPORT.md   # 課程專案報告 Markdown
-PROJECT_REPORT.docx # 課程專案報告 Word
-SOUL.md             # 作品人格與設計原則
-CHECKSUMS.txt       # 發布檔案 SHA-256
+-shijing/
+├── index.html              # 網站入口
+├── style.css               # 介面樣式
+├── app.js                  # 互動與 API 邏輯
+├── poems.json              # 本機詩詞資料
+├── README.md               # 專案說明
+├── CHECKSUMS.txt           # 發布檔案 SHA-256
+└── docs/
+    ├── USER_GUIDE.md       # 使用者指南
+    ├── PROJECT_REPORT.md   # 課程專案報告 Markdown
+    └── SOUL.md             # 作品人格與設計原則
 ```
+## 文件導覽
+
+- [使用者指南](docs/USER_GUIDE.md)
+- [專題報告 Markdown](docs/PROJECT_REPORT.md)
+- [作品人格與設計原則](docs/SOUL.md)
+
 
 ## 使用方式
 
