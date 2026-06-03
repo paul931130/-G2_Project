@@ -2,7 +2,8 @@
 
 「詩境」是一個結合本機唐詩資料庫與 Gemini API，讓使用者用作者、篇名、詩句片段或意境描述召喚詩作，並以「詩魂現身」的方式閱讀古典詩詞的介面。
 
-<img width="384" height="1457" alt="image" src="https://github.com/user-attachments/assets/bb70bb10-1f88-4290-84e0-08eafcad160f" />
+<img width="2528" height="1308" alt="image" src="https://github.com/user-attachments/assets/e3931340-7cf6-460f-b0c4-020ad1881705" />
+
 
 ## 專案特色
 
