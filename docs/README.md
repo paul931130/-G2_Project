@@ -4,5 +4,4 @@
 
 1. `USER_GUIDE.md`：使用者指南
 2. `PROJECT_REPORT.md`：專題報告
-3. `DEMO_SCRIPT.md`：展示影片腳本
-4. `SOUL.md`：作品人格與設計原則
+3. `SOUL.md`：作品人格與設計原則
