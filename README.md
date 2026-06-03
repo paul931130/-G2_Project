@@ -1,6 +1,7 @@
 # 詩境｜生成式 AI 古典詩詞互動系統
 
 「詩境」是一個結合 Gemini API 與 本機唐詩資料庫，讓使用者用作者、篇名、詩句片段或意境描述召喚詩作，並以「詩魂現身」的方式閱讀古典詩詞的網頁。
+<img width="2075" height="933" alt="image" src="https://github.com/user-attachments/assets/be263469-1c96-43e0-abd7-d4eab05efd21" />
 
 ## 檔案結構
 
